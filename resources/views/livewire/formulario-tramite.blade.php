@@ -98,16 +98,64 @@
                     </div>
                 
                     <div x-show="tab === 'requisitos'" x-cloak>
-                        <div>
-                            <x-form.input 
-                                x-model='paso' 
-                                name="modalidad" 
-                                tooltip="En caso que existan requisitos que necesiten alguna firma, validación, certificación, autorización o visto bueno de un tercero, deberá señalar la persona o empresa que lo emita. En caso de que el trámite o servicio que se esté inscribiendo incluya como requisitos la realización de trámites o servicios adicionales deberá de identificar plenamente los mismos, señalando además el sujeto obligado ante quien se realiza" 
-                                label="Enumerar y Detallar los Requisitos" 
-                                placeholder="Ingrese requisito" 
-                            />
+                        <div x-data="{
+                            requisito: '',
+                            requisitos: [],
+                            agregarRequisito() {
+                                if (this.requisito.trim() !== '') {
+                                    this.requisitos.push(this.requisito.trim());
+                                    this.requisito = '';
+                                }
+                            },
+                            eliminarRequisito(index) {
+                                this.requisitos.splice(index, 1);
+                            }
+                        }" class="space-y-4">
+                    
+                            <!-- Input + Botón -->
+                            <div>
+                                <x-form.input 
+                                    x-model="requisito" 
+                                    name="requisito" 
+                                    tooltip="En caso que existan requisitos que necesiten alguna firma, validación, certificación, autorización o visto bueno de un tercero, deberá señalar la persona o empresa que lo emita. En caso de que el trámite o servicio que se esté inscribiendo incluya como requisitos la realización de trámites o servicios adicionales deberá de identificar plenamente los mismos, señalando además el sujeto obligado ante quien se realiza" 
+                                    label="Enumerar y Detallar los Requisitos" 
+                                    placeholder="Ingrese requisito" 
+                                />
+                            </div>
+                    
+                            <button type="button" @click="agregarRequisito"
+                                class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
+                                <x-lucide-plus-circle class="w-4 h-4" />
+                                Agregar requisito
+                            </button>
+                    
+                            <!-- Tabla de requisitos -->
+                            <template x-if="requisitos.length > 0">
+                                <table class="min-w-full mt-4 text-sm text-gray-800  border-gray-400">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Requisito</th>
+                                            <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(item, index) in requisitos" :key="index">
+                                            <tr class="border-b border-gray-700">
+                                                <td class="px-4 py-3 align-top" x-text="item"></td>
+                                                <td class="px-4 py-3 text-right">
+                                                    <button type="button" @click="eliminarRequisito(index)"
+                                                        class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
+                                                        Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
                         </div>
                     </div>
+                    
                 
                     <div x-show="tab === 'documentos'" x-cloak>
                         <div>
