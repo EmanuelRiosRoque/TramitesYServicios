@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\ConsultaTramite;
 use App\Livewire\FormularioTramite;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TramiteController;
@@ -21,3 +22,4 @@ Route::middleware([
 
 Route::post('/tramite', [TramiteController::class, 'store'])->name('tramite.store');
 Route::get('/formulario-tramite', FormularioTramite::class)->name('formulario.tramite');
+Route::get('/consulta-tramite', ConsultaTramite::class)->name('consulta.tramite');

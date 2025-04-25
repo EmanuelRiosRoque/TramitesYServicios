@@ -15,9 +15,10 @@
                 <input 
                     type="radio" 
                     name="{{ $name }}" 
-                    value="{{ $value }}" 
-                    class="form-radio text-teal-600"
+                    value="{{ $value }}"
                     {{ $selected == $value ? 'checked' : '' }}
+                    {{ $attributes->whereStartsWith('x-model') }} 
+                    class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 >
                 <span class="ml-2">{{ $text }}</span>
             </label>

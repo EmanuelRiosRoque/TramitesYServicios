@@ -1,110 +1,36 @@
-<div x-data="{ tab: 'datos' }" class="py-12">
+<div x-data="{ tab: 'datos' }" class="py-2">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-bold px-6 py-4">Ingresa los datos solicitados</h1>
+        <h1 class="text-2xl flex justify-center font-bold px-6 py-4">Ingresa los datos solicitados</h1>
         <div class=" overflow-hidden  sm:rounded-lg">
             <div class="flex">
                 <!-- Sidebar Tabs -->
                 <x-sidebar-tabs/>
                  
                 
-                
-                <form wire:submit.prevent="submit" class="flex-1 p-8 pl-20 max-w-2xl">
+                {{-- TODO: Agregar scroll tamaño predeterminado --}}
+                <form wire:submit.prevent="submit" x-data @submit="$nextTick(() => { window.pasosComponent?.sync() })" class="flex-1 p-8 pl-20 max-w-2xl h-[800px] overflow-y-auto">
                     <section 
                         x-data="{
                             formData: {
                                 modalidad: '',
                                 fundamentoExtension: '',
                                 areaObligada: '',
-                                nombre_tramite: '',
-                                descripcion_tramite: '',
+                                nombreTramite: '',
+                                descripcionTramite: '',
                                 tipo: [],
+                                pasos: [],
                             }
                         }"
-                        x-init="$watch('formData', value => $wire.set('formData', value))"
+                        x-init="$watch('formData', value => $wire.set('formData', JSON.parse(JSON.stringify(value))))"
                     >
 
+
                     <div x-show="tab === 'datos'" x-cloak>
-                        <x-form.input x-model="formData.modalidad" name="modalidad" label="Modalidad" placeholder="Modalidad" />
-                        <x-form.input x-model="formData.fundamentoExtension" name="fundamentoExtension" label="Fundamento Jurídico" placeholder="Ingrese Fundamento" />
-                        <x-form.select
-                            x-model="formData.areaObligada"
-                            name="areaObligada"
-                            label="Área obligada responsable"
-                            :options="['presencial' => 'Presencial', 'linea' => 'En Línea']"
-                            placeholder="Seleccione"
-                        />
-                        <x-form.input x-model="formData.nombreTramite" name="nombreTramite" label="Nombre del Trámite" placeholder="Nombre" />
-                        <x-form.input x-model="formData.descripcionTramite" name="descripcionTramite" label="Descripción" placeholder="Descripcion" />
-                        <div class="mb-4">
-                            <label class="block text-sm font-semibold mb-2">Tipo de Trámite o Servicio</label>
-                            <div class="flex items-center space-x-6">
-                                <label class="inline-flex items-center">
-                                    <input type="checkbox" value="servicio" x-model="formData.tipo" class="form-checkbox text-teal-600">
-                                    <span class="ml-2">Servicio</span>
-                                </label>
-                                <label class="inline-flex items-center">
-                                    <input type="checkbox" value="tramite" x-model="formData.tipo" class="form-checkbox text-teal-600">
-                                    <span class="ml-2">Trámite</span>
-                                </label>
-                            </div>
-                        </div>
+                        <x-formulario.datos-tramite />
                     </div>
                 
                     <div x-show="tab === 'pasos'" x-cloak>
-                        <div x-data="{
-                                paso: '',
-                                pasos: $wire.get('formData.pasos') || [],
-                                agregarPaso() {
-                                    if (this.paso.trim() !== '') {
-                                        this.pasos.push(this.paso.trim());
-                                        $wire.set('formData.pasos', this.pasos); 
-                                        this.paso = '';
-                                    }
-                                },
-                                eliminarPaso(index) {
-                                    this.pasos.splice(index, 1);
-                                    $wire.set('formData.pasos', this.pasos);
-                                }
-                        }" class="space-y-4">
-                        
-                            <!-- Input + Botón -->
-                            <div>
-                                <x-form.input x-model.live='paso' name="modalidad"
-                                    tooltip="Descripción con lenguaje claro, sencillo y conciso de los casos en que debe o puede realizarse el trámite o servicio"
-                                    label="Pasos que debe de llevar a cabo el particular para su realización" placeholder="Ingrese pasos" />
-                            </div>
-                            
-                            <button type="button" @click="agregarPaso"
-                                class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
-                                <x-lucide-plus-circle class="w-4 h-4" />
-                                Agregar paso
-                            </button>
-                            
-                            <!-- Tabla de pasos -->
-                            <template x-if="pasos.length > 0">
-                                <table class="min-w-full mt-4 text-sm text-gray-800  border-gray-400">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Pasos</th>
-                                            <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template x-for="(item, index) in pasos" :key="index">
-                                            <tr class="border-b border-gray-700">
-                                                <td class="px-4 py-3 align-top" x-text="item"></td>
-                                                <td class="px-4 py-3 text-right">
-                                                    <button type="button" @click="eliminarPaso(index)"
-                                                        class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
-                                                        Eliminar
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </template>
-                        </div>
+                        <x-formulario.datos-pasos />
                     </div>
                 
                     <div x-show="tab === 'requisitos'" x-cloak>
@@ -434,19 +360,288 @@
                     </div>
                 
                     <div x-show="tab === 'unidad'" x-cloak>
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Sección: Unidad Administrativa, Domicilio y Horario</h2>
-                            <p class="text-gray-600">Indica qué unidad lleva a cabo el trámite, así como su dirección y horario de atención al público.</p>
+                        <div x-data="unidad">
+                            <!-- Campos de DOMICILIO -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <x-form.select
+                                    x-model="id_inmueble"
+                                    name="id_inmueble"
+                                    label="Inmueble"
+                                    :options="[
+                                        '' => 'Seleccione',
+                                        '1' => 'Inmueble Niños Héroes No. 119',
+                                        '2' => 'Inmueble Niños Héroes No. 132',
+                                        '3' => 'Inmueble Niños Héroes No. 150',
+                                        '4' => 'Inmueble Torre Norte',
+                                        '5' => 'Inmueble Torre Sur',
+                                        '6' => 'Inmueble Claudio Bernard',
+                                        '7' => 'Inmueble Instituto de Ciencias Forenses',
+                                        '8' => 'Inmueble Centro de Justicia alternativa',
+                                        '9' => 'Inmueble Patriotismo',
+                                        '10' => 'Inmueble Dr. Liceaga',
+                                        '11' => 'Inmueble Dr. Lavista',
+                                        '12' => 'Inmueble Clementina Gil de Léster',
+                                        '13' => 'Inmueble Centro de Desarrollo Infantil Gloria Ledúc de Agüero',
+                                        '14' => 'Inmueble Centro de Desarrollo Infantil José María Pino Suarez',
+                                        '15' => 'Inmueble Centro de Desarrollo Infantil Niños Héroes',
+                                        '16' => 'Inmueble Archivo Delicias',
+                                        '17' => 'Inmueble Archivo – Fernando de Alva Ixtlilxóchitl',
+                                        '18' => 'Inmueble Archivo Dr. Navarro',
+                                        '20' => 'Inmueble Reclusorio Preventivo Norte',
+                                        '21' => 'Inmueble Reclusorio Preventivo Sur',
+                                        '23' => 'Inmueble Reclusorio Preventivo Oriente',
+                                        '24' => 'Inmueble Reclusorio Preventivo Santa Martha Acatitla',
+                                        '25' => 'Inmueble Plaza Juarez',
+                                        '26' => 'Inmueble Lerma',
+                                    ]"
+                                    placeholder="Seleccione"
+                                />
+                                <x-form.input x-model="piso" name="piso" label="Piso" />
+                                <x-form.input x-model="unidadAdministrativa" name="unidadAdministrativa" label="Unidad Administrativa" />
+                            </div>
+                    
+                            <button type="button" @click="agregarDomicilio"
+                                class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm mt-6 transition">
+                                <x-lucide-plus-circle class="w-4 h-4" />
+                                Agregar domicilio
+                            </button>
+                    
+                            <template x-if="domicilios.length > 0">
+                                <table class="min-w-full mt-4 text-sm text-gray-800 border-gray-400">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Inmueble/Piso/Unidad</th>
+                                            <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(item, index) in domicilios" :key="index">
+                                            <tr class="border-b border-gray-700">
+                                                <td class="px-4 py-3 align-top" x-text="item"></td>
+                                                <td class="px-4 py-3 text-right">
+                                                    <button type="button" @click="eliminarDomicilio(index)"
+                                                        class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
+                                                        Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
+                    
+                            <!-- Campos de HORARIOS -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                                <x-form.input x-model="horarioAtencion" name="horarioAtencion" label="Horario de atención al público" />
+                                <x-form.input x-model="area" name="area" label="Área" />
+                            </div>
+                    
+                            <button type="button" @click="agregarHorario"
+                                class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm mt-6 transition">
+                                <x-lucide-plus-circle class="w-4 h-4" />
+                                Agregar día y hora
+                            </button>
+                    
+                            <template x-if="horarios.length > 0">
+                                <table class="min-w-full mt-4 text-sm text-gray-800 border-gray-400">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Horario/Área</th>
+                                            <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(item, index) in horarios" :key="index">
+                                            <tr class="border-b border-gray-700">
+                                                <td class="px-4 py-3 align-top" x-text="item"></td>
+                                                <td class="px-4 py-3 text-right">
+                                                    <button type="button" @click="eliminarHorario(index)"
+                                                        class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
+                                                        Eliminar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </template>
                         </div>
                     </div>
-                
+
                     <div x-show="tab === 'otrosMedios'" x-cloak>
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Sección: Otros medios</h2>
-                            <p class="text-gray-600">Incluye información sobre medios electrónicos, plataformas o herramientas adicionales para realizar el trámite.</p>
+                        <div x-data="{
+                            // Variables para teléfonos
+                            numeroTelefono: '',
+                            areaTelfono: '',
+                            telefonos: [],
+                    
+                            // Variables para correos
+                            correoElectronico: '',
+                            areaCorreo: '',
+                            correos: [],
+
+                            // Variables para sitios
+                            sitioWeb: '',
+                            sitiosWeb: [],
+                    
+                            agregarTelefono() {
+                                if (this.numeroTelefono && this.areaTelfono) {
+                                    let telefono = `Tel: ${this.numeroTelefono} / Área: ${this.areaTelfono}`;
+                                    this.telefonos.push(telefono);
+                                    this.numeroTelefono = '';
+                                    this.areaTelfono = '';
+                                } else {
+                                    alert('Completa todos los campos para agregar el teléfono.');
+                                }
+                            },
+                            eliminarTelefono(index) {
+                                this.telefonos.splice(index, 1);
+                            },
+                    
+                            agregarCorreo() {
+                                if (this.correoElectronico && this.areaCorreo) {
+                                    let correo = `Correo: ${this.correoElectronico} / Área: ${this.areaCorreo}`;
+                                    this.correos.push(correo);
+                                    this.correoElectronico = '';
+                                    this.areaCorreo = '';
+                                } else {
+                                    alert('Completa todos los campos para agregar el correo.');
+                                }
+                            },
+                            eliminarCorreo(index) {
+                                this.correos.splice(index, 1);
+                            },
+
+                            agregarSitioWeb() {
+                                if (this.sitioWeb ) {
+                                    let sitio = `Sitio: ${this.sitioWeb}`;
+                                    this.sitiosWeb.push(sitio);
+                                    this.sitioWeb = '';
+                                } else {
+                                    alert('Completa todos los campos para agregar el sitio.');
+                                }
+                            },
+                            eliminarSitioWeb(index) {
+                                this.sitiosWeb.splice(index, 1);
+                            }
+                        }">
+                    
+                            <!-- Campos para Teléfonos -->
+                            <div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <x-form.input x-model="numeroTelefono" name="numeroTelefono" label="Núm. Teléfono" />
+                                    <x-form.input x-model="areaTelfono" name="areaTelfono" label="Área Teléfono" />
+                                </div>
+                        
+                                <button type="button" @click="agregarTelefono"
+                                    class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm mt-6 transition">
+                                    <x-lucide-plus-circle class="w-4 h-4" />
+                                    Agregar teléfono
+                                </button>
+                        
+                                <template x-if="telefonos.length > 0">
+                                    <table class="min-w-full mt-4 text-sm text-gray-800 border-gray-400">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Teléfono/Área</th>
+                                                <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template x-for="(item, index) in telefonos" :key="index">
+                                                <tr class="border-b border-gray-700">
+                                                    <td class="px-4 py-3 align-top" x-text="item"></td>
+                                                    <td class="px-4 py-3 text-right">
+                                                        <button type="button" @click="eliminarTelefono(index)"
+                                                            class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
+                                                            Eliminar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </template>
+                            </div>
+                    
+                            <!-- Campos para Correos -->
+                            <div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                                    <x-form.input x-model="correoElectronico" name="correoElectronico" label="Correo electrónico" />
+                                    <x-form.input x-model="areaCorreo" name="areaCorreo" label="Área Email" />
+                                </div>
+                        
+                                <button type="button" @click="agregarCorreo"
+                                    class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm mt-6 transition">
+                                    <x-lucide-plus-circle class="w-4 h-4" />
+                                    Agregar correo
+                                </button>
+                        
+                                <template x-if="correos.length > 0">
+                                    <table class="min-w-full mt-4 text-sm text-gray-800 border-gray-400">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Correo/Área</th>
+                                                <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template x-for="(item, index) in correos" :key="index">
+                                                <tr class="border-b border-gray-700">
+                                                    <td class="px-4 py-3 align-top" x-text="item"></td>
+                                                    <td class="px-4 py-3 text-right">
+                                                        <button type="button" @click="eliminarCorreo(index)"
+                                                            class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
+                                                            Eliminar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </template>
+                            </div>
+
+                            {{-- Campos sitio --}}
+                            <div class="mt-8">
+                                <x-form.input x-model="sitioWeb" name="sitioWeb" label="Sitios web" />
+
+                                <button type="button" @click="agregarSitioWeb"
+                                    class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm mt-6 transition">
+                                    <x-lucide-plus-circle class="w-4 h-4" />
+                                    Agregar sitios
+                                </button>
+                        
+                                <template x-if="sitiosWeb.length > 0">
+                                    <table class="min-w-full mt-4 text-sm text-gray-800 border-gray-400">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Correo/Área</th>
+                                                <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template x-for="(item, index) in sitiosWeb" :key="index">
+                                                <tr class="border-b border-gray-700">
+                                                    <td class="px-4 py-3 align-top" x-text="item"></td>
+                                                    <td class="px-4 py-3 text-right">
+                                                        <button type="button" @click="eliminarSitioWeb(index)"
+                                                            class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition text-sm">
+                                                            Eliminar
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </template>
+                            </div>
+                            
+                            <x-form.input name="demasDatosMedio" label="Demás datos relativos a cualquier otro medio que permita el envío de consultas, documentos y quejas" placeholder="Ingrese demas datos" />
+
                         </div>
                     </div>
-                
+                       
                     <div x-show="tab === 'informacion'" x-cloak>
                         <div>
                             <x-form.input name="informacion" label="Informacion que debera conservar para fines de acreditacion, inspeccion y verificacion con motivo del tramite o servicio" placeholder="Ingrese informacion" />

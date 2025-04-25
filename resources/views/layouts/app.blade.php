@@ -20,7 +20,7 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-white">
             @livewire('navigation-menu')
 
             <!-- Page Heading -->
@@ -41,6 +41,8 @@
         @stack('modals')
 
         @livewireScripts
+        @vite('resources/js/unidad.js')
+
         <script>
             function dropzonePreview(name, isMultiple = true) {
                 return {
@@ -66,6 +68,14 @@
                 };
             }
         </script>
+
+<script>
+    function syncPasos() {
+        if (window.pasosComponent && window.pasosComponent.pasos) {
+            $wire.set('formData.pasos', [...window.pasosComponent.pasos]);
+        }
+    }
+</script>
         
        
                                 

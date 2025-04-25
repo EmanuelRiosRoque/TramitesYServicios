@@ -1,15 +1,15 @@
-<div class="p-6 lg:p-8 bg-white border-b border-gray-200">
+<div class="p-6 lg:p-8 ">
     <form action="{{ route('tramite.store') }}" method="POST" class="space-y-6">
         @csrf
         <div>
             <label class="block text-sm font-semibold mb-2">Origen Trámite/Servicio</label>
             <div class="flex items-center space-x-6">
                 <label class="inline-flex items-center">
-                    <input type="radio" name="origen" value="TSJCDMX" class="form-radio text-teal-600">
+                    <input type="radio" name="origen" value="TSJCDMX" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <span class="ml-2">TSJCDMX</span>
                 </label>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="origen" value="CJCDMX" class="form-radio text-teal-600">
+                    <input type="radio" name="origen" value="CJCDMX" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <span class="ml-2">CJCDMX</span>
                 </label>
             </div>
@@ -24,7 +24,7 @@
                     id="input1" 
                     name="input1" 
                     placeholder="Nombre"
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-teal-300"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 >
             </div>
             <div>
@@ -34,7 +34,7 @@
                     id="input2" 
                     name="input2"
                     placeholder="Descripción" 
-                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-teal-300"
+                    class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 >
             </div>
         </div>
@@ -45,11 +45,11 @@
                 <label class="block text-sm font-semibold mb-2">Tipo de Trámite o Servicio</label>
                 <div class="flex items-center space-x-6">
                     <label class="inline-flex items-center">
-                        <input type="checkbox" name="tipo[]" value="servicio" class="form-checkbox text-teal-600">
+                        <input type="checkbox" name="tipo[]" value="servicio" class="form-checkbox text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                         <span class="ml-2">Servicio</span>
                     </label>
                     <label class="inline-flex items-center">
-                        <input type="checkbox" name="tipo[]" value="tramite" class="form-checkbox text-teal-600">
+                        <input type="checkbox" name="tipo[]" value="tramite" class="form-checkbox text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                         <span class="ml-2">Trámite</span>
                     </label>
                 </div>
@@ -60,11 +60,11 @@
                 <label class="block text-sm font-semibold mb-2">Formato requerido</label>
                 <div class="flex items-center space-x-6">
                     <label class="inline-flex items-center">
-                        <input type="radio" name="formato" value="1" class="form-radio text-teal-600">
+                        <input type="radio" name="formato" value="1" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                         <span class="ml-2">Sí</span>
                     </label>
                     <label class="inline-flex items-center">
-                        <input type="radio" name="formato" value="2" class="form-radio text-teal-600">
+                        <input type="radio" name="formato" value="2" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                         <span class="ml-2">No</span>
                     </label>
                 </div>

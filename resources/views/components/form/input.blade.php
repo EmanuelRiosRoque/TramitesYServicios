@@ -10,6 +10,7 @@
 @php
     $inputName = $name ?? $attributes->wire('model')->value();
     $errorKey = str_replace(['[', ']'], ['.', ''], $inputName);
+    $hasXModel = $attributes->has('x-model') || $attributes->has('x-model.lazy') || $attributes->has('x-model.defer') || $attributes->has('x-model.live');
 @endphp
 
 <div class="mb-4">
@@ -27,7 +28,9 @@
         type="{{ $type }}"
         @if ($name) name="{{ $name }}" id="{{ $name }}" @endif
         placeholder="{{ $placeholder ?: $label }}"
-        value="{{ old($name, $value) }}"
+        @unless ($hasXModel)
+            value="{{ old($name, $value) }}"
+        @endunless
         {{ $attributes->merge([
             'class' => 'w-full rounded-md border ' .
                        ($errors->has($errorKey) ? 'border-red-500' : 'border-gray-200') .
