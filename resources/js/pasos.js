@@ -14,7 +14,6 @@ export default (wire = null) => ({
         wire?.set('formData.pasos', [...this.pasos]);
     },
     sync() {
-        // Método que sincroniza cuando se manda el formulario
         wire?.set('formData.pasos', [...this.pasos]);
     }
 });
