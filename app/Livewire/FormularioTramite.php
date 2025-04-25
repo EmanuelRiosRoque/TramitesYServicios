@@ -11,7 +11,17 @@ class FormularioTramite extends Component
 
     public $tab;
     public $paso = [];
+    public $formatoRequerido;
+
+    public $formData = [];
+
+    public function submit()
+    {
+        dd($this->formData);
+    }
+
     
+
 
     public function render()
     {

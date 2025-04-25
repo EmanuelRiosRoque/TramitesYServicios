@@ -41,5 +41,33 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            function dropzonePreview(name, isMultiple = true) {
+                return {
+                    files: [],
+                    dragging: false,
+                    init(input) {
+                        if (input) {
+                            input.addEventListener('click', e => e.stopPropagation());
+                        }
+                    },
+                    handleFileChange(event) {
+                        const selectedFiles = Array.from(event.target.files);
+                        this.files = isMultiple ? [...this.files, ...selectedFiles] : selectedFiles.slice(0, 1);
+                    },
+                    handleDrop(event) {
+                        const droppedFiles = Array.from(event.dataTransfer.files);
+                        this.files = isMultiple ? [...this.files, ...droppedFiles] : droppedFiles.slice(0, 1);
+                        this.dragging = false;
+                    },
+                    removeFile(index) {
+                        this.files.splice(index, 1);
+                    }
+                };
+            }
+        </script>
+        
+       
+                                
     </body>
 </html>
