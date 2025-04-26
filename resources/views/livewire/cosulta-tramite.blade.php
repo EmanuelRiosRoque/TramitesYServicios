@@ -13,14 +13,14 @@
 
     <!-- Lista de elementos -->
     <div class="space-y-4">
-        @foreach (['x', 'x', 'x', 'MANUAL USUARIO: PRUEBA'] as $item)
+        @foreach ($tramites as $tramite)
             <div class="bg-white shadow-md rounded-md p-4 flex justify-between items-center">
-                <span class="text-gray-700 font-medium">{{ $item }}</span>
-                {{-- TODO: Estatus: Editar, En revision, Publicado, Suspendido,  --}}
-                <button class="text-sm text-gray-600 hover:text-teal-600 flex items-center space-x-1">
-                    <x-lucide-eye class="w-5 h-5 text-gay-600" />
+                <span class="text-gray-700 font-medium">{{ $tramite->nombre_tramite_servicio }}</span>
+                <a href="{{ route('formulario.tramite', $tramite->id) }}" 
+                    class="text-sm text-gray-600 hover:text-teal-600 flex items-center space-x-1">
+                    <x-lucide-eye class="w-5 h-5 text-gray-600" />
                     <span>Editar</span>
-                </button>
+                </a>                
             </div>
         @endforeach
     </div>

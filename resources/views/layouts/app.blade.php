@@ -41,8 +41,8 @@
         @stack('modals')
 
         @livewireScripts
-        @vite('resources/js/unidad.js')
 
+{{--        
         <script>
             function dropzonePreview(name, isMultiple = true) {
                 return {
@@ -67,16 +67,9 @@
                     }
                 };
             }
-        </script>
+        </script> --}}
 
-<script>
-    function syncPasos() {
-        if (window.pasosComponent && window.pasosComponent.pasos) {
-            $wire.set('formData.pasos', [...window.pasosComponent.pasos]);
-        }
-    }
-</script>
-        
+
        
                                 
     </body>

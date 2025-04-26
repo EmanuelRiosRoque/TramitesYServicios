@@ -3,19 +3,18 @@
     'name' => null,
     'type' => 'text',
     'placeholder' => '',
-    'value' => '',
     'tooltip' => '',
+    'modelo' => 'formData', // nombre base
 ])
 
 @php
-    $inputName = $name ?? $attributes->wire('model')->value();
-    $errorKey = str_replace(['[', ']'], ['.', ''], $inputName);
-    $hasXModel = $attributes->has('x-model') || $attributes->has('x-model.lazy') || $attributes->has('x-model.defer') || $attributes->has('x-model.live');
+    $fullModel = $name ? ($modelo ? "{$modelo}.{$name}" : $name) : null;
+    $errorKey = $name ? str_replace(['[', ']'], ['.', ''], $name) : null;
 @endphp
 
 <div class="mb-4">
     @if ($label)
-        <label for="{{ $name }}" class="block text-sm font-semibold text-gray-800 mb-1">
+        <label @if($name) for="{{ $name }}" @endif class="block text-sm font-semibold text-gray-800 mb-1">
             {{ $label }}
         </label>
     @endif
@@ -26,19 +25,19 @@
 
     <input
         type="{{ $type }}"
-        @if ($name) name="{{ $name }}" id="{{ $name }}" @endif
+        @if ($name) id="{{ $name }}" name="{{ $modelo }}[{{ $name }}]" @endif
+        @if ($fullModel) x-model="{{ $fullModel }}" @endif
         placeholder="{{ $placeholder ?: $label }}"
-        @unless ($hasXModel)
-            value="{{ old($name, $value) }}"
-        @endunless
         {{ $attributes->merge([
             'class' => 'w-full rounded-md border ' .
-                       ($errors->has($errorKey) ? 'border-red-500' : 'border-gray-200') .
+                       ($name && $errors->has($modelo . '.' . $errorKey) ? 'border-red-500' : 'border-gray-200') .
                        ' bg-white p-3 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:border-teal-500 focus:ring-teal-500 transition duration-150 ease-in-out',
         ]) }}
     />
 
-    @error($errorKey)
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-    @enderror
+    @if ($name)
+        @error($modelo . '.' . $errorKey)
+            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+        @enderror
+    @endif
 </div>

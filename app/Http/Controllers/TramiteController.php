@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\TramiteServicio;
 
 class TramiteController extends Controller
 {
     public function store(Request $request)
     {
-        // dd($request->all());
 
-        // $request->validate([
-        //     'origen' => 'required',
-        //     'input1' => 'required|string',
-        //     'input2' => 'required|string',
-        //     'tipo' => 'required|array|min:1',
-        //     'formato' => 'required',
-        // ]);
+        $tramite = TramiteServicio::create([
+            'origen' => $request->origen,
+            'nombre_tramite_servicio' => $request->nombreTramite,
+            'descripcion_tramite_servicio' => $request->descripcionTramite,
+            'tipo' => $request->tipo, 
+            'formato_requerido' => $request->formato
+        ]);
 
-        return redirect()->route('formulario.tramite')->with('message', 'Formulario enviado correctamente.');
+        return redirect()->route('formulario.tramite', ['id' => $tramite->id]);
+       
     }
 }

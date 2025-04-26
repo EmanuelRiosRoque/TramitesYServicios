@@ -1,20 +1,23 @@
 // resources/js/unidad.js
 
-export default () => ({
-    // Variables for DOMICILIOS
+export default (wire = null) => ({
     id_inmueble: '',
     piso: '',
     unidadAdministrativa: '',
-    domicilios: [],
-    // Variables for HORARIOS
+    domicilios: wire ? wire.get('formData.domicilios') || [] : [],
+
     horarioAtencion: '',
-    area: '',
-    horarios: [],
+    areaHorario: '',
+    horarios: wire ? wire.get('formData.horarios') || [] : [],
 
     agregarDomicilio() {
         if (this.id_inmueble && this.piso && this.unidadAdministrativa) {
-            let domicilio = `${this.getInmueble(this.id_inmueble)} / Piso: ${this.piso} / Unidad: ${this.unidadAdministrativa}`;
-            this.domicilios.push(domicilio);
+            this.domicilios.push({
+                calle: this.getInmueble(this.id_inmueble),
+                piso: this.piso,
+                unidad: this.unidadAdministrativa
+            });
+            this.sync();
             this.id_inmueble = '';
             this.piso = '';
             this.unidadAdministrativa = '';
@@ -22,22 +25,31 @@ export default () => ({
             alert('Completa todos los campos para agregar el domicilio.');
         }
     },
+
     eliminarDomicilio(index) {
         this.domicilios.splice(index, 1);
+        this.sync();
     },
+
     agregarHorario() {
-        if (this.horarioAtencion && this.area) {
-            let horario = `Horario: ${this.horarioAtencion} / Área: ${this.area}`;
-            this.horarios.push(horario);
+        if (this.horarioAtencion && this.areaHorario) {
+            this.horarios.push({
+                horario: this.horarioAtencion,
+                area: this.areaHorario
+            });
+            this.sync();
             this.horarioAtencion = '';
-            this.area = '';
+            this.areaHorario = '';
         } else {
             alert('Completa todos los campos para agregar el horario.');
         }
     },
+
     eliminarHorario(index) {
         this.horarios.splice(index, 1);
+        this.sync();
     },
+
     getInmueble(id) {
         const inmuebles = {
             '1': 'Inmueble Niños Héroes No. 119',
@@ -62,9 +74,14 @@ export default () => ({
             '21': 'Inmueble Reclusorio Preventivo Sur',
             '23': 'Inmueble Reclusorio Preventivo Oriente',
             '24': 'Inmueble Reclusorio Preventivo Santa Martha Acatitla',
-            '25': 'Inmueble Plaza Juarez',
+            '25': 'Inmueble Plaza Juárez',
             '26': 'Inmueble Lerma',
         };
         return inmuebles[id] || 'Desconocido';
+    },
+
+    sync() {
+        wire?.set('formData.domicilios', [...this.domicilios]);
+        wire?.set('formData.horarios', [...this.horarios]);
     }
 });

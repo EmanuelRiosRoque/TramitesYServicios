@@ -6,7 +6,7 @@
 ])
 
 <div 
-    x-data="dropzonePreview('{{ $name }}', {{ $multiple ? 'true' : 'false' }})" 
+    x-data="dropzonePreview('{{ $name }}', {{ $multiple ? 'true' : 'false' }}, '{{ $attributes->whereStartsWith('x-model')->first() }}')"
     x-init="$nextTick(() => init($refs.input))"
     class="space-y-4"
 >

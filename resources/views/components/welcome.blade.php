@@ -5,11 +5,11 @@
             <label class="block text-sm font-semibold mb-2">Origen Trámite/Servicio</label>
             <div class="flex items-center space-x-6">
                 <label class="inline-flex items-center">
-                    <input type="radio" name="origen" value="TSJCDMX" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                    <input type="radio" name="origen" value="1" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <span class="ml-2">TSJCDMX</span>
                 </label>
                 <label class="inline-flex items-center">
-                    <input type="radio" name="origen" value="CJCDMX" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                    <input type="radio" name="origen" value="2" class="form-radio text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                     <span class="ml-2">CJCDMX</span>
                 </label>
             </div>
@@ -21,8 +21,8 @@
                 <label class="block text-sm font-semibold mb-1" for="input1">Nombre del Trámite o Servicio</label>
                 <input 
                     type="text" 
-                    id="input1" 
-                    name="input1" 
+                    id="nombreTramite" 
+                    name="nombreTramite" 
                     placeholder="Nombre"
                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 >
@@ -31,8 +31,8 @@
                 <label class="block text-sm font-semibold mb-1" for="input2">Descripción del Trámite o Servicio</label>
                 <input 
                     type="text" 
-                    id="input2" 
-                    name="input2"
+                    id="descripcionTramite" 
+                    name="descripcionTramite"
                     placeholder="Descripción" 
                     class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 >

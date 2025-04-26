@@ -21,5 +21,5 @@ Route::middleware([
 
 
 Route::post('/tramite', [TramiteController::class, 'store'])->name('tramite.store');
-Route::get('/formulario-tramite', FormularioTramite::class)->name('formulario.tramite');
+Route::get('/formulario-tramite/{id}', FormularioTramite::class)->name('formulario.tramite');
 Route::get('/consulta-tramite', ConsultaTramite::class)->name('consulta.tramite');
