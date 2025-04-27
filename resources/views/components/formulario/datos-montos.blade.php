@@ -1,5 +1,9 @@
-<div x-data="monto($wire)" class="space-y-6">
+<div x-data="monto($wire)" 
+class="space-y-6">
 
+<div 
+:class="(tieneError('montos')) ? 'border border-red-500 p-4 rounded-md' : ''"
+>
     <x-form.input 
         x-model.live="monto"
         tooltip="Monto de los derechos o aprovechamientos aplicables, en su caso, o la forma de determinar dicho monto, así como las alternativas"
@@ -18,7 +22,7 @@
         <table class="min-w-full text-sm text-gray-800">
             <thead class="bg-gray-100">
                 <tr>
-                    <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Fundamento Jurídico</th>
+                    <th class="text-left px-4 py-2 border-b border-gray-300 font-semibold">Monto</th>
                     <th class="text-right px-4 py-2 border-b border-gray-300 font-semibold">Eliminar</th>
                 </tr>
             </thead>
@@ -37,6 +41,8 @@
             </tbody>
         </table>
     </template>
+
+</div>
 
     <x-form.input name="fundamentoMonto" label="Fundamento Juridico del monto" placeholder="Ingrese fundamento" />
     

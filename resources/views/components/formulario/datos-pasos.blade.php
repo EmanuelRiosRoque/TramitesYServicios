@@ -1,12 +1,18 @@
 <!-- Sección de Pasos -->
-
-<div x-data="pasos($wire)" class="space-y-4">
+<div 
+    x-data="pasos($wire)" 
+    class="space-y-4"
+    :class="tieneError('pasos') ? 'border border-red-500 p-4 rounded-md' : ''"
+>
 
     <!-- Input de nuevo paso -->
     <div>
-        <x-form.input x-model.live="paso" label="Pasos que debe de llevar a cabo el particular para su realización"
+        <x-form.input 
+            x-model.live="paso" 
+            label="Pasos que debe de llevar a cabo el particular para su realización"
             tooltip="Descripción clara, sencilla y concisa de los pasos para realizar el trámite o servicio"
-            placeholder="Ingrese paso" />
+            placeholder="Ingrese paso" 
+        />
     </div>
 
     <!-- Botón Agregar Paso -->
@@ -40,5 +46,7 @@
             </tbody>
         </table>
     </template>
+
+
 
 </div>

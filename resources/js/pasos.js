@@ -7,12 +7,15 @@ export default (wire = null) => ({
             this.pasos.push(this.paso.trim());
             wire?.set('formData.pasos', [...this.pasos]);
             this.paso = '';
+
         }
     },
+
     eliminarPaso(index) {
         this.pasos.splice(index, 1);
         wire?.set('formData.pasos', [...this.pasos]);
     },
+
     sync() {
         wire?.set('formData.pasos', [...this.pasos]);
     }

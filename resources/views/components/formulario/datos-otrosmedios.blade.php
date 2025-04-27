@@ -4,6 +4,8 @@ x-init="
 $watch('telefonos', value => $wire.set('formData.telefonos', value));
 $watch('correos', value => $wire.set('formData.domicilios', value));
 "
+:class="(tieneError('correos') || tieneError('sitiosWebs') || tieneError('telefonos')) ? 'border border-red-500 p-4 rounded-md' : ''"
+
 >
     <div class="mb-7">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -168,6 +170,7 @@ $watch('correos', value => $wire.set('formData.domicilios', value));
 
     <x-form.input 
         x-model="formData.demasDatosRelativos"
+        name=demasDatosRelativos
         label="Demas datos relativos a cualquier otro medio que permita el envio de cosulta, documentos y quejas" 
         placeholder="Ingrese datos" 
     />

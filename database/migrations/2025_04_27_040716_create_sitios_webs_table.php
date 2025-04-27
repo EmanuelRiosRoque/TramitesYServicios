@@ -7,16 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('requisitos', function (Blueprint $table) {
+        Schema::create('sitios_webs', function (Blueprint $table) {
             $table->id();
-            $table->string('requisito')->nullable();
-            $table->string('fundamento_requisito')->nullable();
+            $table->text('url')->nullable(); // URL del sitio web
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('requisitos');
+        Schema::dropIfExists('sitios_webs');
     }
 };

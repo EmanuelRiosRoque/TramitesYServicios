@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\TramiteServicio;
 use Livewire\Attributes\Layout;
 
-#[Layout('layouts.app')] 
+#[Layout('layouts.app')]
 class FormularioTramite extends Component
 {
 
@@ -18,13 +18,13 @@ class FormularioTramite extends Component
         'areaObligada' => '',
         'nombreTramite' => '',
         'descripcionTramite' => '',
-        'tipo' => [], 
+        'tipo' => [],
 
         // Pasos para realizar el trámite
         'pasos' => [],
 
         // Requisitos
-        'requsitos' => [],
+        'requisitos' => [],
         'fundamentos' => [],
         // Documentos
         'documentosRequeridos' => [],
@@ -37,7 +37,7 @@ class FormularioTramite extends Component
         'otroFormato' => '',
 
         // Inspeccion verificacion
-        'requiereInspeccion' => '',
+        'requiereInspeccion' => null,
         'objetivoInspeccion' => '',
         'fundamentoInspeccion' => '',
 
@@ -48,7 +48,7 @@ class FormularioTramite extends Component
         'fundamentosPlazo' => [],
 
         // Monto
-        'montos' =>[],
+        'montos' => [],
         'fundamentoMonto' => '',
 
         // Vigencia
@@ -62,11 +62,11 @@ class FormularioTramite extends Component
         // Unidad
         'domicilios' => [],
         'horarios' => [],
-        'sitiosWebs' => [],
 
         // otros Medios
         'telefonos' => [],
         'correos' => [],
+        'sitiosWebs' => [],
         'demasDatosRelativos' => '',
 
         //Informacion
@@ -82,9 +82,9 @@ class FormularioTramite extends Component
         'utilizaFirma' => '',
         'realizarNotificaciones' => '',
         'demasInformacion' => '',
-      
-    ];
 
+    ];
+    public $tramiteServicioId;
     // public $formData = [
     //     // Datos generales del trámite
     //     'modalidad' => 'Presencial',
@@ -93,14 +93,14 @@ class FormularioTramite extends Component
     //     'nombreTramite' => 'Solicitud de constancia de antecedentes',
     //     'descripcionTramite' => 'Trámite para obtener constancia de no antecedentes penales.',
     //     'tipo' => ['servicio'],
-    
+
     //     // Pasos para realizar el trámite
     //     'pasos' => [
     //         'Llenar el formulario de solicitud.',
     //         'Entregar documentación requerida.',
     //         'Esperar resolución de la autoridad.'
     //     ],
-    
+
     //     // Requisitos
     //     'requisitos' => [
     //         'Identificación oficial vigente.',
@@ -110,13 +110,13 @@ class FormularioTramite extends Component
     //         'Artículo 22 de la Ley de Transparencia',
     //         'Reglamento interno del área solicitante'
     //     ],
-    
+
     //     // Documentos
     //     'documentosRequeridos' => [
     //         'Formato de solicitud firmado.',
     //         'Copia simple de identificación oficial.'
     //     ],
-    
+
     //     // Formato requerido
     //     'formatosRequeridos' => ['1'],
 
@@ -128,7 +128,7 @@ class FormularioTramite extends Component
     //     'requiereInspeccion' => '2',
     //     'objetivoInspeccion' => '',
     //     'fundamentoInspeccion' => '',
-    
+
     //     // Plazo
     //     'plazo' => '15 días hábiles',
     //     'plazoSujeto' => 'Sujeto a disponibilidad',
@@ -136,22 +136,22 @@ class FormularioTramite extends Component
     //     'fundamentosPlazo' => [
     //         'Artículo 14 del Código Administrativo.'
     //     ],
-    
+
     //     // Monto
     //     'montos' => [
     //         '350.00',
     //         '500.00'
     //     ],
     //     'fundamentoMonto' => 'Artículo 10 de la Ley de Derechos',
-    
+
     //     // Vigencia
     //     'vigencia' => '1 año',
     //     'fundamentoVigencia' => 'Artículo 25 del Reglamento Interno',
-    
+
     //     // Criterio
     //     'criterio' => 'Otorgamiento condicionado a validación de datos.',
     //     'fundamentoCriterio' => 'Artículo 40 de la Ley General',
-    
+
     //     // Unidad (Domicilios y Horarios)
     //     'domicilios' => [
     //         [
@@ -179,7 +179,7 @@ class FormularioTramite extends Component
     //         'https://tramites.ejemplo.gob.mx',
     //         'https://consultas.ejemplo.gob.mx'
     //     ],
-    
+
     //     // Otros medios de contacto
     //     'telefonos' => [
     //         [
@@ -204,11 +204,11 @@ class FormularioTramite extends Component
     //     ],
 
     //     'demasDatosRelativos' => 'Citas únicamente por internet.',
-    
+
     //     // Información complementaria
     //     'informacion' => 'Información adicional disponible en la página web oficial.',
     //     'fundamentoInformacion' => 'Artículo 50 de la Ley de Gobierno Digital',
-    
+
     //     // Demás información sobre trámites
     //     'tramiteEnLinea' => '1',
     //     'cargarDocumentos' => '2',
@@ -221,31 +221,35 @@ class FormularioTramite extends Component
     // ];
     public function mount($id)
     {
+
         if ($id) {
             $tramite = TramiteServicio::find($id);
             // dd($tramite);
-            $this->formData = [
-                'nombreTramite' => $tramite->nombre_tramite_servicio,
-                'descripcionTramite' => $tramite->descripcion_tramite_servicio,
-                'tipo' => $tramite->tipo, 
+            $this->tramiteServicioId = $id;
+            $this->formData = array_merge($this->formData, [
+                'nombreTramite' => $tramite->nombre_tramite,
+                'descripcionTramite' => $tramite->descripcion,
+                'tipo' => $tramite->tipo,
                 'formatoRequerido' => $tramite->formato_requerido,
-            ];
+            ]);
         }
     }
+    public function submit()   
+{
+    $tramite = TramiteServicio::find($this->tramiteServicioId);
+   
+    if ($tramite) {
+        $tramite->update([
+            'modalidad' => $this->formData['modalidad'],
+            'fundamento_tramite'  => $this->formData['fundamentoExtension']
+        ]);
 
-    public function rules()
-    {
-        return [
-            'formData.modalidad' => 'required|string',
-        ];
+        dd('Trámite actualizado correctamente', $this->formData);
+    } else {
+        dd('Trámite no encontrado');
     }
+}
 
-    public function submit()
-    {
-        // $this->validate(); // ✅ Esto usa automáticamente el método rules()
-        // Por ejemplo:
-        dd('Formulario válido', $this->formData);
-    }
     public function render()
     {
         return view('livewire.formulario-tramite');

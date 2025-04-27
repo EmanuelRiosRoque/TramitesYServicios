@@ -10,17 +10,17 @@ class TramiteServicio extends Model
     use HasFactory;
 
     protected $fillable = [
-        // 'modalidad',
-        // 'fundamento_existencia',
-        // 'area_obligada_responsable',
         'origen',
-        'nombre_tramite_servicio',
-        'descripcion_tramite_servicio',
+        'fundamento_tramite',
+        'nombre_tramite',
+        'descripcion',
         'tipo',
-        'formato_requerido'
+        'formato_requerido',
+        'modalidad'
     ];
 
+    // 🚀 Aquí el cast
     protected $casts = [
-        'tipo' => 'array', // Para que automáticamente Laravel maneje "tipo" como array
+        'tipo' => 'array',
     ];
 }

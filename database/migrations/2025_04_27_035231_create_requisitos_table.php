@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('montos', function (Blueprint $table) {
+        Schema::create('requisitos', function (Blueprint $table) {
             $table->id();
-            $table->text('monto')->nullable(); // Texto, no decimal
-            $table->text('fundamento_monto')->nullable(); // También texto
+            $table->text('requisito')->nullable();
+            $table->text('fundamento_requisito')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('montos');
+        Schema::dropIfExists('requisitos');
     }
 };

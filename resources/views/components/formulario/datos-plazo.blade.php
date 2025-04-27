@@ -1,4 +1,7 @@
-<div x-data="plazo($wire)" class="space-y-6">
+<div 
+x-data="plazo($wire)" 
+:class="(tieneError('fundamentosPlazo')) ? 'border border-red-500 p-4 rounded-md' : ''"
+class="space-y-6">
                         
     <x-form.input name="plazo" tooltip="Plazo que tiene el sujeto obligado para resolver el trámite o servicio y en su caso si aplica la afirmativa o la negativa ficta" label="Plazo" placeholder="Ingrese plazo" />
     <x-form.input name="plazoSujeto" label="Plazo con el que cuenta el sujeto obligado para prevenir al solicitante" placeholder="Ingrese plazo" />

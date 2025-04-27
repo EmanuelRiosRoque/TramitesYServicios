@@ -1,6 +1,8 @@
 <div 
 x-data="unidad($wire)" 
 x-init="$watch('domicilios', value => $wire.set('formData.domicilios', value));"
+:class="(tieneError('domicilios') || tieneError('horarios')) ? 'border border-red-500 p-4 rounded-md' : ''"
+
 class="space-y-6"
 >
                             

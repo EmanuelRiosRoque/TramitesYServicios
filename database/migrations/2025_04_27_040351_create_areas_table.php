@@ -9,14 +9,15 @@ return new class extends Migration {
     {
         Schema::create('areas', function (Blueprint $table) {
             $table->id();
-            $table->string('domicilio_unidad_administrativa')->nullable();
+            $table->text('domicilio_unidad_administrativa')->nullable();
             $table->string('piso')->nullable();
             $table->string('unidad_administrativa')->nullable();
-            $table->string('horario_atencion')->nullable();
+            $table->text('horario_atencion_publico')->nullable();
             $table->string('area')->nullable();
             $table->string('telefono')->nullable();
             $table->string('area_telefono')->nullable();
             $table->string('correo_electronico')->nullable();
+            $table->string('area_correo')->nullable();
             $table->timestamps();
         });
     }

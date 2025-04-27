@@ -16,17 +16,33 @@
             ['id' => 'informacion', 'icon' => 'info', 'label' => 'Información'],
             ['id' => 'estrategia', 'icon' => 'lightbulb', 'label' => 'Demás información que se prevea en la estrategia'],
         ] as $item)
-        <li class="p-1 border-b">
-            <a href="#" @click.prevent="tab = '{{ $item['id'] }}'"
-               :class="tab === '{{ $item['id'] }}' ? 'font-bold text-teal-700' : 'hover:text-teal-700'"
-               class="flex items-center justify-between">
-                <span class="flex items-center gap-3">
+        <li 
+        class="p-1 border-b"
+        :class="tabsConError.includes('{{ $item['id'] }}') ? 'bg-red-100' : ''"
+    >
+        <a href="#"
+           @click.prevent="cambiarTab('{{ $item['id'] }}')"
+           class="flex items-center justify-between"
+           :class="tab === '{{ $item['id'] }}' ? 'font-bold text-teal-700' : 'hover:text-teal-700'"
+        >
+            <span class="flex items-center gap-3">
+                <!-- Ícono dinámico -->
+                <template x-if="tabsConError.includes('{{ $item['id'] }}')">
+                    <x-lucide-alert-circle class="w-5 h-5 text-red-400" />
+                </template>
+                <template x-if="!tabsConError.includes('{{ $item['id'] }}')">
                     <x-dynamic-component :component="'lucide-' . $item['icon']" class="w-5 h-5 text-cyan-500" />
-                    {{ $item['label'] }}
-                </span>
-                <x-lucide-arrow-right class="w-5 h-5 text-cyan-500" />
-            </a>
-        </li>
+                </template>
+    
+                <!-- Texto del tab -->
+                {{ $item['label'] }}
+            </span>
+    
+            <!-- Flechita final -->
+            <x-lucide-arrow-right class="w-5 h-5 text-cyan-500" />
+        </a>
+    </li>
+    
         @endforeach
     </ul>
 </aside>

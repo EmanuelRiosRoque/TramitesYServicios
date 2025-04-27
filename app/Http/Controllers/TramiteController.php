@@ -12,8 +12,8 @@ class TramiteController extends Controller
 
         $tramite = TramiteServicio::create([
             'origen' => $request->origen,
-            'nombre_tramite_servicio' => $request->nombreTramite,
-            'descripcion_tramite_servicio' => $request->descripcionTramite,
+            'nombre_tramite' => $request->nombreTramite,
+            'descripcion' => $request->descripcionTramite,
             'tipo' => $request->tipo, 
             'formato_requerido' => $request->formato
         ]);

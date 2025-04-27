@@ -5,15 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Documento extends Model
+class SitiosWeb extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'tipo_formato',
-        'archivo',
-        'ultima_fecha_publicacion',
-        'fundamento_juridico',
-        'tipo',
+        'url',
     ];
 }

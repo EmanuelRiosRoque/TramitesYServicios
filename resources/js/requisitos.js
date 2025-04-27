@@ -1,10 +1,8 @@
-// resources/js/requisitos.js
-
 export default (wire = null) => ({
     requisito: '',
-    requisitos: wire ? wire.get('formData.requisitos') || [] : [],
+    requisitos: wire ? [...(wire.get('formData.requisitos') || [])] : [],
     fundamentoRequisito: '',
-    fundamentos: wire ? wire.get('formData.fundamentos') || [] : [],
+    fundamentos: wire ? [...(wire.get('formData.fundamentos') || [])] : [],
 
     agregarRequisito() {
         if (this.requisito.trim() !== '') {
@@ -13,6 +11,7 @@ export default (wire = null) => ({
             this.requisito = '';
         }
     },
+
     eliminarRequisito(index) {
         this.requisitos.splice(index, 1);
         wire?.set('formData.requisitos', [...this.requisitos]);
@@ -25,6 +24,7 @@ export default (wire = null) => ({
             this.fundamentoRequisito = '';
         }
     },
+
     eliminarFundamento(index) {
         this.fundamentos.splice(index, 1);
         wire?.set('formData.fundamentos', [...this.fundamentos]);

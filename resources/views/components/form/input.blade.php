@@ -4,7 +4,7 @@
     'type' => 'text',
     'placeholder' => '',
     'tooltip' => '',
-    'modelo' => 'formData', // nombre base
+    'modelo' => 'formData',
 ])
 
 @php
@@ -27,12 +27,13 @@
         type="{{ $type }}"
         @if ($name) id="{{ $name }}" name="{{ $modelo }}[{{ $name }}]" @endif
         @if ($fullModel) x-model="{{ $fullModel }}" @endif
+        @input="limpiarCampoError('{{ $name }}')"
         placeholder="{{ $placeholder ?: $label }}"
         {{ $attributes->merge([
-            'class' => 'w-full rounded-md border ' .
-                       ($name && $errors->has($modelo . '.' . $errorKey) ? 'border-red-500' : 'border-gray-200') .
-                       ' bg-white p-3 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:border-teal-500 focus:ring-teal-500 transition duration-150 ease-in-out',
+            'class' => 'w-full rounded-md border bg-white p-3 text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:ring-teal-500 transition duration-150 ease-in-out ' .
+                       ($name && $errors->has($modelo . '.' . $errorKey) ? 'border-red-500' : 'border-gray-200')
         ]) }}
+        :class="tieneError('{{ $name }}') ? 'border-red-500' : ''"
     />
 
     @if ($name)
