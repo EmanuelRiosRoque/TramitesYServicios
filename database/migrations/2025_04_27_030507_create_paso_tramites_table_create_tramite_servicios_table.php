@@ -9,55 +9,62 @@ return new class extends Migration {
     {
         Schema::create('tramite_servicios', function (Blueprint $table) {
             $table->id();
-            
+
             $table->string('origen')->nullable();
+            $table->string('formato_requerido')->nullable();
+
+
+            $table->string('modalidad')->nullable();
             $table->string('fundamento_tramite')->nullable();
+            $table->string('fundamento_existencia')->nullable();
+            $table->unsignedBigInteger('fk_areasObligada')->nullable();
             $table->string('nombre_tramite')->nullable();
             $table->text('descripcion')->nullable();
             $table->json('tipo')->nullable();
-            $table->string('modalidad')->nullable();
-            $table->string('formato_requerido')->nullable();
+
+            // Formato
+            $table->integer('tipo_formato')->nullable();
+            $table->string('otro_formato')->nullable();
+            $table->text('fundamento_formato')->nullable();
+            // Inspeccion
+            $table->integer('requiere_inspeccion')->nullable();
+            $table->string('objetivo_inspeccion')->nullable();
+            $table->text('fundamento_inspeccion')->nullable();
+
+            //Plazo
+            $table->string('plazo')->nullable();
+            $table->string('plazo_sujeto')->nullable();
+            $table->string('plazo_solicitante')->nullable();
             
-            //pasos
-            $table->unsignedBigInteger('fk_pasos')->nullable();
+            //Monto
+            $table->text('fundamento_monto')->nullable();
 
 
-            $table->unsignedBigInteger('fk_areasObligada')->nullable();
-            $table->unsignedBigInteger('fk_archivoFormato')->nullable();
-            $table->text('fundamentoTramiteServicio')->nullable();
-            $table->unsignedBigInteger('fk_requisitos')->nullable();
-            $table->text('fundamentoRequisitos')->nullable();
-            $table->unsignedBigInteger('fk_archivoDocumentos')->nullable();
+            //Vigencia
+            $table->string('vigencia')->nullable();
+            $table->string('fundamento_vigencia')->nullable();
 
-            $table->text('fundamentoFormatos')->nullable();
-            $table->string('objetivoInspeccion')->nullable();
-            $table->string('fundamentoInspeccion')->nullable();
-            $table->string('plazoSujetoObligado')->nullable();
-            $table->string('plazoPrevencion')->nullable();
-            $table->string('plazoCumplirPrevencion')->nullable();
-            $table->text('fundamentoPlazo')->nullable();
+            //Criterio
+            $table->string('criterio')->nullable();
+            $table->string('fundamento_criterio')->nullable();
 
-            $table->unsignedBigInteger('fk_montos')->nullable();
-            $table->text('fundamentoMonto')->nullable();
-            $table->string('vigenciaAvisos')->nullable();
-            $table->text('fundamentoVigencia')->nullable();
-            $table->unsignedBigInteger('fk_criterios')->nullable();
-            $table->text('fundamentoCriterios')->nullable();
-            $table->unsignedBigInteger('fk_areasAdministrativa')->nullable();
+            //Demas datos
+            $table->string('demas_datos_relativos')->nullable();
 
-            $table->unsignedBigInteger('fk_sitioWeb')->nullable();
-            $table->text('otroMedioConsultasDocumentosQuejas')->nullable();
-            $table->text('informacionAConservar')->nullable();
-            $table->text('fundamentoInformacionAConservar')->nullable();
+            //Informacion
+            $table->string('informacion')->nullable();
+            $table->string('fundamento_informacion')->nullable();
 
-            $table->boolean('enLineaExclusiva')->nullable();
-            $table->boolean('subirDocumentosEnLinea')->nullable();
-            $table->boolean('seguimientoDeEstatus')->nullable();
-            $table->boolean('acusesEnLinea')->nullable();
-            $table->boolean('resoluciónPorInternet')->nullable();
-            $table->boolean('requiereFirmaElectronica')->nullable();
+            //Estrategia
+            $table->string('tramite_en_linea')->nullable();
+            $table->string('cargar_documentos')->nullable();
+            $table->string('seguimiento')->nullable();
+            $table->string('informacion_medios')->nullable();
+            $table->string('respuesta_resolucion')->nullable();
+            $table->string('utiliza_firma')->nullable();
+            $table->string('realizar_notificaciones')->nullable();
+            $table->string('demas_nformacion')->nullable();
 
-            $table->text('demasInformacion')->nullable();
 
             $table->timestamps();
         });

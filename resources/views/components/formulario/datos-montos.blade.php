@@ -43,7 +43,5 @@ class="space-y-6">
     </template>
 
 </div>
-
-    <x-form.input name="fundamentoMonto" label="Fundamento Juridico del monto" placeholder="Ingrese fundamento" />
-    
+    <x-form.input x-model="formData.fundamentoMonto" name="fundamentoMonto" label="Fundamento Juridico del monto" placeholder="Ingrese fundamento" />
 </div>

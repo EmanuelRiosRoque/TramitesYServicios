@@ -5,7 +5,7 @@
         x-model="formData.areaObligada"
         name="areaObligada"
         label="Área obligada responsable"
-        :options="['presencial' => 'Presencial', 'linea' => 'En Línea']"
+        :options="['' => 'Seleccione','1' => 'Presencial', '2' => 'En Línea']"
         placeholder="Seleccione"
     />
     <x-form.input x-model="formData.nombreTramite" name="nombreTramite" label="Nombre del Trámite" placeholder="Nombre" />

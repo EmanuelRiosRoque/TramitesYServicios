@@ -84,7 +84,7 @@ class="space-y-6"
                 <tbody>
                     <template x-for="(item, index) in domicilios" :key="index">
                         <tr class="border-b border-gray-300">
-                            <td class="px-4 py-3 align-top" x-text="item.calle"></td>
+                            <td class="px-4 py-3 align-top" x-text="item.nombre_inmueble"></td>
                             <td class="px-4 py-3 align-top" x-text="item.piso"></td>
                             <td class="px-4 py-3 align-top" x-text="item.unidad"></td>
                             <td class="px-4 py-3 text-right">

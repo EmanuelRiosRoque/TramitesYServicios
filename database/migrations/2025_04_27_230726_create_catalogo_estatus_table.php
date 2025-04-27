@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('sitios_webs', function (Blueprint $table) {
+        Schema::create('catalogo_estatus', function (Blueprint $table) {
             $table->id();
-            $table->text('url')->nullable(); // URL del sitio web
+            $table->string('nombre'); // 'Editar', 'En revisión', etc.
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('sitios_webs');
+        Schema::dropIfExists('catalogo_estatus');
     }
 };

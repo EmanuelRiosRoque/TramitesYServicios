@@ -14,14 +14,35 @@
     <!-- Lista de elementos -->
     <div class="space-y-4">
         @foreach ($tramites as $tramite)
-            <div class="bg-white shadow-md rounded-md p-4 flex justify-between items-center">
-                <span class="text-gray-700 font-medium">{{ $tramite->nombre_tramite_servicio }}</span>
-                <a href="{{ route('formulario.tramite', $tramite->id) }}" 
-                    class="text-sm text-gray-600 hover:text-teal-600 flex items-center space-x-1">
-                    <x-lucide-eye class="w-5 h-5 text-gray-600" />
+    <div class="bg-white shadow-md rounded-md p-4 flex justify-between items-center">
+        <span class="text-gray-700 font-medium">{{ $tramite->nombre_tramite }}</span>
+
+        <a href="{{ route('formulario.tramite', $tramite->id) }}" 
+            class="text-sm text-gray-600 hover:text-teal-600 flex items-center space-x-1">
+            
+            @switch($tramite->fk_estatus)
+                @case(1)
+                    <x-lucide-pencil class="w-5 h-5 text-gray-600" />
                     <span>Editar</span>
-                </a>                
-            </div>
-        @endforeach
+                    @break
+
+                @case(2)
+                    <x-lucide-eye class="w-5 h-5 text-gray-600" />
+                    <span>Ver</span>
+                    @break
+
+                @case(3)
+                    <x-lucide-check class="w-5 h-5 text-gray-600" />
+                    <span>Finalizado</span>
+                    @break
+
+                @default
+                    <x-lucide-help-circle class="w-5 h-5 text-gray-600" />
+                    <span>Desconocido</span>
+            @endswitch
+        </a>
+    </div>
+@endforeach
+
     </div>
 </div>

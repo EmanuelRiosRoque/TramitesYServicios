@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SitiosWeb extends Model
+class CatalogoInmueble extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'url',
+        'nombre_inmueble',
     ];
 }

@@ -9,9 +9,12 @@ return new class extends Migration {
     {
         Schema::create('requisitos', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('tramite_servicio_id'); 
             $table->text('requisito')->nullable();
-            $table->text('fundamento_requisito')->nullable();
             $table->timestamps();
+
+            // Opcional: Clave foránea
+            $table->foreign('tramite_servicio_id')->references('id')->on('tramite_servicios')->onDelete('cascade');
         });
     }
 

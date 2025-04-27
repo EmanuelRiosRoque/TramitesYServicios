@@ -13,9 +13,10 @@ export default (wire = null) => ({
     agregarDomicilio() {
         if (this.id_inmueble && this.piso && this.unidadAdministrativa) {
             this.domicilios.push({
-                calle: this.getInmueble(this.id_inmueble),
+                id_inmueble: this.id_inmueble, // 🔥 Guardamos el id para el insert
+                nombre_inmueble: this.getInmueble(this.id_inmueble), // 🔥 También guardamos el nombre para mostrarlo bonito
                 piso: this.piso,
-                unidad: this.unidadAdministrativa
+                unidad: this.unidadAdministrativa,
             });
             this.sync();
             this.id_inmueble = '';

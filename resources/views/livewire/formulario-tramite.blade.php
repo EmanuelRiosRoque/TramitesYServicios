@@ -14,7 +14,10 @@
                              
                 <!-- Sidebar Tabs -->
 
-                <x-form.formulario-tabs />
+                <x-form.formulario-tabs 
+                    :documentos-guardados="$documentosGuardados" :fk_estatus="$fk_estatus"
+                />
+
 
             </div>
             <!-- Botones de Navegación -->

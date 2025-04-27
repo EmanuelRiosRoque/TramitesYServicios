@@ -73,10 +73,7 @@
 
     <input type="hidden" x-model="formData" wire:model.defer="formData">
 
-    <div class="pt-4">
-        <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-5 px-6 rounded shadow">
-            Guardar Información
-        </button>
-    </div>
+   
+    
 
 </div>

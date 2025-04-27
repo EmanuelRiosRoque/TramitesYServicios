@@ -15,7 +15,8 @@ class TramiteController extends Controller
             'nombre_tramite' => $request->nombreTramite,
             'descripcion' => $request->descripcionTramite,
             'tipo' => $request->tipo, 
-            'formato_requerido' => $request->formato
+            'formato_requerido' => $request->formato,
+            'fk_estatus' => 1, // 🔥 Aquí ponemos por defecto "Editar" (ID 1)
         ]);
 
         return redirect()->route('formulario.tramite', ['id' => $tramite->id]);

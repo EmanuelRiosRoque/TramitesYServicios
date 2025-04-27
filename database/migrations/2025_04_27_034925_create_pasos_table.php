@@ -9,9 +9,13 @@ return new class extends Migration {
     {
         Schema::create('pasos', function (Blueprint $table) {
             $table->id();
-            $table->string('paso')->nullable();
+            $table->unsignedBigInteger('tramite_servicio_id'); // FK al tramite_servicio
+            $table->text('paso');
             $table->timestamps();
+        
+            $table->foreign('tramite_servicio_id')->references('id')->on('tramite_servicios')->onDelete('cascade');
         });
+        
     }
 
     public function down(): void

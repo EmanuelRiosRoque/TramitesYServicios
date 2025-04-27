@@ -10,6 +10,12 @@ class Paso extends Model
     use HasFactory;
 
     protected $fillable = [
+        'tramite_servicio_id',
         'paso',
     ];
+
+    public function tramiteServicio()
+    {
+        return $this->belongsTo(TramiteServicio::class);
+    }
 }

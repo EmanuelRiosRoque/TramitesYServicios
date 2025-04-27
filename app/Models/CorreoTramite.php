@@ -5,18 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Requisito extends Model
+class CorreoTramite extends Model
 {
     use HasFactory;
 
+    protected $table = 'correos_tramite';
+
     protected $fillable = [
-        'tramite_servicio_id', 
-        'requisito',
+        'tramite_servicio_id',
+        'correo',
+        'area',
     ];
 
     public function tramite()
     {
-        return $this->belongsTo(TramiteServicio::class, 'fk_tramite_servicio');
+        return $this->belongsTo(TramiteServicio::class, 'tramite_servicio_id');
     }
-    
 }
