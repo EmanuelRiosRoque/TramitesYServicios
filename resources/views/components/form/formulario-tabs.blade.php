@@ -176,12 +176,7 @@
 
         <div class="pt-4 flex flex-wrap gap-4">
             @if ($fk_estatus == 1) 
-                <button 
-                    type="submit" 
-                    class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded shadow"
-                >
-                    Guardar Cambios
-                </button>
+                
         
                 <button 
                     type="button" 
@@ -199,6 +194,12 @@
             >
                 Vista Previa
             </button>
+            <button 
+                    type="submit" 
+                    class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded shadow"
+                >
+                    Guardar Cambios
+                </button>
         </div>
         
     </div>                

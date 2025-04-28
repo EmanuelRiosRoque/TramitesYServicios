@@ -400,22 +400,22 @@ class FormularioTramite extends Component
             }
 
             // Primero eliminamos los inmuebles anteriores
-            InmuebleTramite::where('tramite_servicio_id', $this->tramiteServicioId)->delete();
+            // InmuebleTramite::where('tramite_servicio_id', $this->tramiteServicioId)->delete();
 
             // Insertar nuevos inmuebles
+            InmuebleTramite::where('tramite_servicio_id', $this->tramiteServicioId)->delete();
+
             if (!empty($this->formData['domicilios']) && is_array($this->formData['domicilios'])) {
                 foreach ($this->formData['domicilios'] as $inmueble) {
-                    if (!empty($inmueble['calle']) || !empty($inmueble['piso']) || !empty($inmueble['unidad'])) {
-                        InmuebleTramite::create([
-                            'tramite_servicio_id' => $this->tramiteServicioId,
-                            'id_inmueble' => $inmueble['id_inmueble'],
-                            'piso' => $inmueble['piso'],
-                            'unidad_administrativa' => $inmueble['unidad'],
-                        ]);                        
-                    }
+                    InmuebleTramite::create([
+                        'tramite_servicio_id' => $this->tramiteServicioId,
+                        'id_inmueble' => $inmueble['id_inmueble'],
+                        'piso' => $inmueble['piso'],
+                        'unidad_administrativa' => $inmueble['unidad'],
+                    ]);
                 }
             }
-
+            
 
             TelefonoTramite::where('tramite_servicio_id', $this->tramiteServicioId)->delete();
 
@@ -539,26 +539,20 @@ class FormularioTramite extends Component
             })->toArray();
     }
 
-    public function enviarRevision()
-    {
-        // 🔥 Primero guardamos toda la información
-        $this->submit();
+public function enviarRevision()
+{
+    $tramite = TramiteServicio::find($this->tramiteServicioId);
 
-        // 🔥 Después cambiamos el estatus
-        $tramite = TramiteServicio::find($this->tramiteServicioId);
+    if ($tramite) {
+        $tramite->update([
+            'fk_estatus' => 2, // Cambiar a "En Revisión"
+        ]);
 
-        if ($tramite) {
-            $tramite->update([
-                'fk_estatus' => 2,
-            ]);
-
-            // 🔥 Actualizamos en Livewire también
-            $this->fk_estatus = 2;
-
-        }
+        // 🔥 Actualizar el valor local para que desaparezcan los botones
+        $this->fk_estatus = 2;
     }
+}
 
-    
     public function render()
     {
         return view('livewire.formulario-tramite');
