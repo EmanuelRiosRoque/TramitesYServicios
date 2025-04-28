@@ -10,8 +10,7 @@ return new class extends Migration {
     {
         Schema::create('pasos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('
-            '); // FK al tramite_servicio
+            $table->unsignedBigInteger('tramite_servicio_id'); // FK al tramite_servicio
             $table->text('paso');
             $table->timestamps();
         
