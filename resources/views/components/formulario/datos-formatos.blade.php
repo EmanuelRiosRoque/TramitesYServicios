@@ -25,25 +25,25 @@
     </div>
 
     <!-- Dropzone visible solo si se selecciona "Sí" -->
-    <div x-show="formData.formatoRequerido == '1'" x-transition>
+    <div x-show="formData.formatoRequerido == '1'" x-transition class="mt-5">
         
 
         <x-form.radiogroup 
             x-model=formData.tipoFormato
             name="tipoFormato"
             :options="[
-                '1' => 'Ejemplo 1',
-                '2' => 'Ejemplo 2',
-                '3' => 'Ejemplo 3',
-                '4' => 'Otro ',
+                '1' => 'Formato',
+                '2' => 'Escrito Libre',
+                '3' => 'Ambos',
+                '4' => 'Otros Medios',
             ]"
         />
         <div x-show="formData.tipoFormato === '4'" x-transition>
             <x-form.input 
                 x-model="formData.otroFormato" 
                 name="otroFormato" 
-                label="No se sabe" 
-                placeholder="Ingrese que otro" 
+                label="Otros Medios" 
+                placeholder="Ingrese que otro medio" 
             />
         </div>
 
@@ -53,6 +53,13 @@
             accept="application/pdf"
             multiple
             x-model="formData.formatosRequeridos"
+        />
+
+        <x-form.input 
+            x-model="formData.ultimaFechaPublicacion" 
+            type="date"
+            name="ultimaFechaPublicacion" 
+            label="Ultima Fecha de publicación en el Medio de Difusión" 
         />
     </div>
 

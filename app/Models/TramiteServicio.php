@@ -25,6 +25,7 @@ class TramiteServicio extends Model
         'tipo_formato',
         'otro_formato',
         'fundamento_formato',
+        'ultima_fecha_publicacion',
         //Inspeccin
         'requiere_inspeccion',
         'objetivo_inspeccion',
@@ -60,7 +61,7 @@ class TramiteServicio extends Model
         'respuesta_resolucion',
         'utiliza_firma',
         'realizar_notificaciones',
-        'demas_nformacion',
+        'demas_informacion',
     ];
 
     // 🚀 Aquí el cast

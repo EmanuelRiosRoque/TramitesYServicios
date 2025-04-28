@@ -22,4 +22,10 @@ class InmuebleTramite extends Model
     {
         return $this->belongsTo(TramiteServicio::class, 'tramite_servicio_id');
     }
+
+    public function inmueble()
+    {
+        return $this->belongsTo(CatalogoInmueble::class, 'id_inmueble');
+    }
+
 }

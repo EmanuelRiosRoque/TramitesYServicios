@@ -9,7 +9,7 @@ class HorarioTramite extends Model
 {
     use HasFactory;
     
-    protected $table = 'horarios_tramite'; // 🔥 Forzar tabla correcta
+    protected $table = 'horarios_tramite'; //   Forzar tabla correcta
 
 
     protected $fillable = [

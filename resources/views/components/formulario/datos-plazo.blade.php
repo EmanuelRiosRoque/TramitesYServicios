@@ -5,9 +5,10 @@ class="space-y-6">
                         
     <x-form.input x-model="formData.plazo" name="plazo" tooltip="Plazo que tiene el sujeto obligado para resolver el trámite o servicio y en su caso si aplica la afirmativa o la negativa ficta" label="Plazo" placeholder="Ingrese plazo" />
     <x-form.input x-model="formData.plazoSujeto" name="plazoSujeto" label="Plazo con el que cuenta el sujeto obligado para prevenir al solicitante" placeholder="Ingrese plazo" />
-    <x-form.input x-model="formData.plazoSolicitante" name="plazoSolicitante" label="Plazo con el que cuenta el solicitante para cumplir con la preventiva" placeholder="Ingrese plazo" />
+    <x-form.input x-model="formData.plazoSolicitante" name="plazoSolicitante" label="Plazo con el que cuenta el solicitante para cumplir con la prevención" placeholder="Ingrese plazo" />
 
     <x-form.input 
+        tooltip="Plazo que tiene el sujeto obligado para resolver el trámite o servicio y en su caso si aplica la afirmativa o la negativa ficta"
         x-model.live="fundamentoPlazo"
         label="Fundamento Jurídico del plazo" 
         placeholder="Ingrese fundamento" 

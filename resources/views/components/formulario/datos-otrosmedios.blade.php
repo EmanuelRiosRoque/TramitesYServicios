@@ -11,13 +11,13 @@ $watch('correos', value => $wire.set('formData.correos', value));
             <!-- Piso -->
             <x-form.input 
                 x-model.live="numumeroTelfono"
-                label="Num. Telfono" 
+                label="Núm. Teléfono" 
             />
 
             <!-- Unidad Administrativa -->
             <x-form.input 
                 x-model.live="areaTelefono"
-                label="Area Telefono"
+                label="Área Teléfono"
             />
         </div>
 
@@ -68,13 +68,13 @@ $watch('correos', value => $wire.set('formData.correos', value));
             <!-- Piso -->
             <x-form.input 
                 x-model.live="correoElectronico"
-                label="Correo electronico" 
+                label="Correo electrónico" 
             />
 
             <!-- Unidad Administrativa -->
             <x-form.input 
                 x-model.live="areaCorreo"
-                label="Area Email"
+                label="Área Email"
             />
         </div>
 
@@ -170,7 +170,7 @@ $watch('correos', value => $wire.set('formData.correos', value));
     <x-form.input 
         x-model="formData.demasDatosRelativos"
         name=demasDatosRelativos
-        label="Demas datos relativos a cualquier otro medio que permita el envio de cosulta, documentos y quejas" 
+        label="Demás datos relativos a cualquier otro medio que permita el envío de consultas, documentos y quejas" 
         placeholder="Ingrese datos" 
     />
 </div>

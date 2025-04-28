@@ -1,6 +1,6 @@
 <div class="space-y-4">
 
-    <label class="block text-sm font-semibold mb-2">Inspeccion</label>
+    <label class="block text-sm font-semibold mb-2">¿Requiere inspección o verificación?</label>
     
 
         <x-form.radiogroup 
@@ -12,8 +12,8 @@
             ]"
         />
 
-        <div x-show="formData.requiereInspeccion === '1'" x-transition>
-            <x-form.input x-model="formData.objetivoInspeccion" name="objetivoInspeccion" label="Objetivo de la inspeccion y verificacion" placeholder="Ingrese objetivo" />
-            <x-form.input x-model="formData.fundamentoInspeccion" name="fundamentoInspeccion" label="Fundamento Juridico de la inspeccion" placeholder="Ingrese fundamento" />
+        <div x-show="formData.requiereInspeccion == '1'" x-transition>
+            <x-form.input x-model="formData.objetivoInspeccion" name="objetivoInspeccion" label="Objetivo de la inspección y verificación" placeholder="Ingrese objetivo" />
+            <x-form.input x-model="formData.fundamentoInspeccion" name="fundamentoInspeccion" label="Fundamento jurídico de la inspección y verificación" placeholder="Ingrese fundamento" />
         </div>
     </div>

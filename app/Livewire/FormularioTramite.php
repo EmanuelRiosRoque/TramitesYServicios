@@ -8,6 +8,7 @@ use App\Models\Requisito;
 use App\Models\MontoTramite;
 use App\Models\CorreoTramite;
 use App\Models\HorarioTramite;
+use Masmerise\Toaster\Toaster;
 use App\Models\FundamentoPlazo;
 use App\Models\InmuebleTramite;
 use App\Models\SitioWebTramite;
@@ -18,6 +19,7 @@ use App\Models\CatalogoInmueble;
 use App\Models\FundamentoRequisito;
 use Illuminate\Support\Facades\Storage;
 use App\Models\DocumentoFormatoRequerido;
+use Devrabiul\ToastMagic\Facades\ToastMagic;
 
 #[Layout('layouts.app')]
 class FormularioTramite extends Component
@@ -48,6 +50,7 @@ class FormularioTramite extends Component
         'formatosRequeridos' => [],
         'formatoRequerido' => null,
         'fundamentoFormato' => '',
+        'ultimaFechaPublicacion' => '',
         'tipoFormato' => null,
         'otroFormato' => '',
 
@@ -118,11 +121,11 @@ class FormularioTramite extends Component
                 'sitiosWeb',
                 'fundamentosPlazo'
             )->find($id);
-    
+
             if ($tramite) {
                 $this->tramiteServicioId = $id;
                 $this->fk_estatus = $tramite->fk_estatus;
-                // 🔥 Solo si existen documentos
+                //   Solo si existen documentos
                 $this->documentosGuardados = $tramite->documentosFormatos
                     ? $tramite->documentosFormatos->map(function ($doc) {
                         return [
@@ -136,7 +139,7 @@ class FormularioTramite extends Component
                     })->toArray()
                     : [];
     
-                // 🔥 Cargamos todos los datos al formData
+                //   Cargamos todos los datos al formData
                 $this->formData = array_merge($this->formData, [
                     'modalidad' => $tramite->modalidad,
                     'areaObligada' => $tramite->fk_areasObligada,
@@ -149,6 +152,7 @@ class FormularioTramite extends Component
                     'tipoFormato' => $tramite->tipo_formato,
                     'otroFormato' => $tramite->otro_formato,
                     'fundamentoFormato' => $tramite->fundamento_formato,
+                    'ultimaFechaPublicacion' => $tramite->ultima_fecha_publicacion,
     
                     // Inspección
                     'requiereInspeccion' => $tramite->requiere_inspeccion,
@@ -186,7 +190,7 @@ class FormularioTramite extends Component
                     'respuestaResolucion' => $tramite->respuesta_resolucion,
                     'utilizaFirma' => $tramite->utiliza_firma,
                     'realizarNotificaciones' => $tramite->realizar_notificaciones,
-                    'demasInformacion' => $tramite->demas_nformacion,
+                    'demasInformacion' => $tramite->demas_informacion,
     
                     // Relaciones hijas
                     'pasos' => $tramite->pasos ? $tramite->pasos->pluck('paso')->toArray() : [],
@@ -244,6 +248,8 @@ class FormularioTramite extends Component
     public function submit()
     {
         $tramite = TramiteServicio::find($this->tramiteServicioId);
+        // dd($this->formData);
+        $this->dispatch('toast', 'success', 'Trámite actualizado exitosamente', '¡Éxito!');
 
         if ($tramite) {
             // Actualizamos los datos principales
@@ -259,6 +265,7 @@ class FormularioTramite extends Component
                 'tipo_formato' => $this->nullIfEmpty($this->formData['tipoFormato']),
                 'otro_formato' => $this->nullIfEmpty($this->formData['otroFormato']),
                 'fundamento_formato' => $this->nullIfEmpty($this->formData['fundamentoFormato']),
+                'ultima_fecha_publicacion' => $this->nullIfEmpty($this->formData['ultimaFechaPublicacion']),
 
                 // Inspección
                 'requiere_inspeccion' => $this->nullIfEmpty($this->formData['requiereInspeccion']),
@@ -295,7 +302,7 @@ class FormularioTramite extends Component
                 'respuesta_resolucion' => $this->nullIfEmpty($this->formData['respuestaResolucion']),
                 'utiliza_firma' => $this->nullIfEmpty($this->formData['utilizaFirma']),
                 'realizar_notificaciones' => $this->nullIfEmpty($this->formData['realizarNotificaciones']),
-                'demas_nformacion' => $this->nullIfEmpty($this->formData['demasInformacion']),
+                'demas_informacion' => $this->nullIfEmpty($this->formData['demasInformacion']),
             ]);
 
 
@@ -346,10 +353,10 @@ class FormularioTramite extends Component
                         $nombreArchivo = time() . '_' . $documento['name'];
                         $ruta = 'documentos/' . $nombreArchivo; // Guardarlo en /storage/app/public/documentos
 
-                        // 🔥 Guardamos el archivo físico en el servidor
+                        //   Guardamos el archivo físico en el servidor
                         Storage::disk('public')->put($ruta, base64_decode($documento['base64']));
 
-                        // 🔥 Creamos el registro en la base de datos
+                        //   Creamos el registro en la base de datos
                         DocumentoFormatoRequerido::create([
                             'tramite_servicio_id' => $this->tramiteServicioId,
                             'nombre_archivo' => $documento['name'],
@@ -367,16 +374,16 @@ class FormularioTramite extends Component
                         $nombreArchivo = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $formato['name']);
                         $ruta = 'documentos/' . $nombreArchivo; // Guardarlo en /storage/app/public/documentos (igual que documentos)
             
-                        // 🔥 Guardamos el archivo físico en el servidor
+                        //   Guardamos el archivo físico en el servidor
                         Storage::disk('public')->put($ruta, base64_decode($formato['base64']));
             
-                        // 🔥 Creamos el registro en la base de datos
+                        //   Creamos el registro en la base de datos
                         DocumentoFormatoRequerido::create([
                             'tramite_servicio_id' => $this->tramiteServicioId,
                             'nombre_archivo' => $formato['name'],
                             'tipo_archivo' => $formato['type'],
                             'tamano_archivo' => $formato['size'],
-                            'tipo' => 'formato', // 🔥 Aquí sí ponemos 'formato'
+                            'tipo' => 'formato', //   Aquí sí ponemos 'formato'
                             'ruta_archivo' => $ruta,
                         ]);
                     }
@@ -481,18 +488,19 @@ class FormularioTramite extends Component
 
             FundamentoPlazo::where('tramite_servicio_id', $this->tramiteServicioId)->delete();
 
-        // Insertar nuevos fundamentos de plazo
-        if (!empty($this->formData['fundamentosPlazo']) && is_array($this->formData['fundamentosPlazo'])) {
-            foreach ($this->formData['fundamentosPlazo'] as $fundamento) {
-                if (!empty($fundamento)) {
-                    FundamentoPlazo::create([
-                        'tramite_servicio_id' => $this->tramiteServicioId,
-                        'fundamento' => $fundamento,
-                    ]);
+            // Insertar nuevos fundamentos de plazo
+            if (!empty($this->formData['fundamentosPlazo']) && is_array($this->formData['fundamentosPlazo'])) {
+                foreach ($this->formData['fundamentosPlazo'] as $fundamento) {
+                    if (!empty($fundamento)) {
+                        FundamentoPlazo::create([
+                            'tramite_servicio_id' => $this->tramiteServicioId,
+                            'fundamento' => $fundamento,
+                        ]);
+                    }
                 }
             }
-        }
 
+            Toaster::success('Tramite o servicio actualizado!');
 
         } else {
             dd('❌ Trámite no encontrado');
@@ -509,15 +517,15 @@ class FormularioTramite extends Component
         $documento = DocumentoFormatoRequerido::find($id);
 
         if ($documento) {
-            // 🔥 Borra el archivo físico en storage
+            //   Borra el archivo físico en storage
             if (Storage::disk('public')->exists($documento->ruta_archivo)) {
                 Storage::disk('public')->delete($documento->ruta_archivo);
             }
 
-            // 🔥 Borra el registro de la base de datos
+            //   Borra el registro de la base de datos
             $documento->delete();
 
-            // 🔥 Vuelve a actualizar la lista de documentosGuardados
+            //   Vuelve a actualizar la lista de documentosGuardados
             $this->actualizarDocumentosGuardados();
         }
     }
@@ -548,8 +556,10 @@ public function enviarRevision()
             'fk_estatus' => 2, // Cambiar a "En Revisión"
         ]);
 
-        // 🔥 Actualizar el valor local para que desaparezcan los botones
+        //   Actualizar el valor local para que desaparezcan los botones
         $this->fk_estatus = 2;
+
+        Toaster::success('Tramite o servicio se envio a revision !');
     }
 }
 

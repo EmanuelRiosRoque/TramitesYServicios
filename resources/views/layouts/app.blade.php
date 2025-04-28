@@ -16,6 +16,8 @@
 
         <!-- Styles -->
         @livewireStyles
+        <!-- iziToast CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" />
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -70,7 +72,9 @@
         </script> --}}
 
 
-       
-                                
+       <!-- iziToast JS -->
+       <x-toaster-hub /> <!-- 👈 -->
+
+        
     </body>
 </html>

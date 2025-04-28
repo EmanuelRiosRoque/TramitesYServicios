@@ -14,7 +14,7 @@ class MontoTramite extends Model
         'monto',
     ];
 
-    protected $table = 'montos_tramite'; // 🔥 ¡Aquí fuerzas el nombre correcto!
+    protected $table = 'montos_tramite'; //   ¡Aquí fuerzas el nombre correcto!
 
     public function tramite()
     {

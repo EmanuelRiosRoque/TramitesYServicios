@@ -5,9 +5,20 @@
         x-model="formData.areaObligada"
         name="areaObligada"
         label="Área obligada responsable"
-        :options="['' => 'Seleccione','1' => 'Presencial', '2' => 'En Línea']"
+        :options="[
+            '' => 'Seleccione',
+            '1' => 'Dirección Ejecutiva de Gestión Tecnológica',
+            '2' => 'Dirección de Gestión Tecnológica',
+            '3' => 'Dirección de Desarrollo y Mantenimiento de Sistemas',
+            '4' => 'Dirección de Operación y Control',
+            '5' => 'Dirección de Comunicaciones y Seguridad',
+            '6' => 'Dirección de Ingeniería y Soporte a la Oralidad',
+            '7' => 'Coordinación de Proyectos',
+            '8' => 'Difusión y Diseño'
+        ]"
         placeholder="Seleccione"
     />
+
     <x-form.input x-model="formData.nombreTramite" name="nombreTramite" label="Nombre del Trámite" placeholder="Nombre" />
     <x-form.input x-model="formData.descripcionTramite" name="descripcionTramite" label="Descripción" placeholder="Descripcion" />
 

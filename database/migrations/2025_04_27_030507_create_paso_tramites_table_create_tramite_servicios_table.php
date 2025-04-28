@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->integer('tipo_formato')->nullable();
             $table->string('otro_formato')->nullable();
             $table->text('fundamento_formato')->nullable();
+            $table->date('ultima_fecha_publicacion')->nullable();
             // Inspeccion
             $table->integer('requiere_inspeccion')->nullable();
             $table->string('objetivo_inspeccion')->nullable();
@@ -63,7 +64,7 @@ return new class extends Migration {
             $table->string('respuesta_resolucion')->nullable();
             $table->string('utiliza_firma')->nullable();
             $table->string('realizar_notificaciones')->nullable();
-            $table->string('demas_nformacion')->nullable();
+            $table->string('demas_informacion')->nullable();
 
 
             $table->timestamps();

@@ -9,9 +9,9 @@ return new class extends Migration {
     {
         Schema::create('correos_tramite', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tramite_servicio_id'); // 🔥 FK al trámite
-            $table->string('correo')->nullable(); // 🔥 Correo electrónico
-            $table->string('area')->nullable(); // 🔥 Área responsable
+            $table->unsignedBigInteger('tramite_servicio_id'); //   FK al trámite
+            $table->string('correo')->nullable(); //   Correo electrónico
+            $table->string('area')->nullable(); //   Área responsable
             $table->timestamps();
 
             $table->foreign('tramite_servicio_id')

@@ -6,7 +6,7 @@ class="space-y-6">
 >
     <x-form.input 
         x-model.live="monto"
-        tooltip="Monto de los derechos o aprovechamientos aplicables, en su caso, o la forma de determinar dicho monto, así como las alternativas"
+        tooltip="-Monto de los derechos o aprovechamientos aplicables, en su caso, o la forma de determinar dicho monto, así como las alternativas para realizar el pago:"
         label="Monto" 
         placeholder="Ingrese monto, forma o alternativa" 
     />
@@ -15,7 +15,7 @@ class="space-y-6">
     <button type="button" @click="agregarMonto"
         class="inline-flex items-center gap-2 border border-cyan-400 text-cyan-700 font-medium bg-cyan-50 hover:bg-cyan-100 px-4 py-2 rounded-md text-sm transition duration-150 ease-in-out">
         <x-lucide-plus-circle class="w-4 h-4" />
-        Agregar fundamento
+        Agregar monto
     </button>
 
     <template x-if="montos.length > 0">
@@ -43,5 +43,5 @@ class="space-y-6">
     </template>
 
 </div>
-    <x-form.input x-model="formData.fundamentoMonto" name="fundamentoMonto" label="Fundamento Juridico del monto" placeholder="Ingrese fundamento" />
+    <x-form.input x-model="formData.fundamentoMonto" name="fundamentoMonto" label="Fundamento Jurídico del Monto" placeholder="Ingrese fundamento" />
 </div>

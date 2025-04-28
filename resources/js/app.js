@@ -1,4 +1,5 @@
 import './bootstrap';
+import '../../vendor/masmerise/livewire-toaster/resources/js'; // 👈
 import 'animate.css';
 import unidad from './unidad';
 import pasos from './pasos';

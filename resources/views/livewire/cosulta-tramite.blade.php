@@ -28,12 +28,17 @@
 
                 @case(2)
                     <x-lucide-eye class="w-5 h-5 text-gray-600" />
-                    <span>Ver</span>
+                    <span>En revision</span>
                     @break
 
                 @case(3)
-                    <x-lucide-check class="w-5 h-5 text-gray-600" />
-                    <span>Finalizado</span>
+                    <x-lucide-file-warning class="w-5 h-5 text-gray-600" />
+                    <span>Rechazado</span>
+                    @break
+
+                @case(4)
+                    <x-lucide-badge-check class="w-5 h-5 text-gray-600" />
+                    <span>Publicado</span>
                     @break
 
                 @default

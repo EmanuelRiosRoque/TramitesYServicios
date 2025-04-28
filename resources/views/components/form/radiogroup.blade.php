@@ -2,7 +2,7 @@
     'label' => '',
     'name',
     'options' => [],
-    'modelo' => 'formData', // 🔥 nombre del objeto de Alpine o Livewire (por defecto formData)
+    'modelo' => 'formData', //   nombre del objeto de Alpine o Livewire (por defecto formData)
 ])
 
 @php

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FundamentoPlazo extends Model
 {
     use HasFactory;
-    protected $table = 'fundamentos_plazo'; // 🔥 Forzar tabla correcta
+    protected $table = 'fundamentos_plazo'; //   Forzar tabla correcta
 
     protected $fillable = [
         'tramite_servicio_id',

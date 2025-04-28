@@ -9,11 +9,11 @@ return new class extends Migration {
     {
         Schema::create('fundamentos_plazo', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tramite_servicio_id'); // 🔥 FK al trámite
-            $table->text('fundamento'); // 🔥 Fundamento jurídico del plazo
+            $table->unsignedBigInteger('tramite_servicio_id'); //   FK al trámite
+            $table->text('fundamento'); //   Fundamento jurídico del plazo
             $table->timestamps();
 
-            // 🔥 Llave foránea
+            //   Llave foránea
             $table->foreign('tramite_servicio_id')
                   ->references('id')
                   ->on('tramite_servicios')

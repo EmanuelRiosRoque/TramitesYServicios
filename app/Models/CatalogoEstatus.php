@@ -9,7 +9,7 @@ class CatalogoEstatus extends Model
 {
     use HasFactory;
 
-    protected $table = 'catalogo_estatus'; // <- 🔥 Nombre correcto
+    protected $table = 'catalogo_estatus'; // <-   Nombre correcto
 
     protected $fillable = [
         'nombre',

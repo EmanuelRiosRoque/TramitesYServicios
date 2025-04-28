@@ -1,7 +1,3 @@
-@props([
-    'documentosGuardados' => [],
-    'fk_estatus' => null,
-])
 <form wire:submit.prevent="submit" class="flex-1 p-8 pl-20 max-w-2xl" x-data="{ formData: $wire.formData }">
                 
     <div x-show="tab === 'datos'" x-cloak>
@@ -144,14 +140,14 @@
 
     <div x-show="tab === 'vigencia'" x-cloak>
         <div>
-            <x-form.input x-model=formData.vigencia name="vigencia" label="Vigencia de los avisos, permisos, licencias, autorizaciones, registros, demas resoluciones que se emitan" placeholder="Ingrese vegencia" />
-            <x-form.input x-model=formData.fundamentoVigencia name="fundamentoVigencia" label="Fundamento Juridico Vigencia" placeholder="Ingrese fundamento" />
+            <x-form.input x-model=formData.vigencia name="vigencia" label="Vigencia de los avisos, permisos, licencias, autorizaciones, registros y demás resoluciones que se emitan" placeholder="Ingrese vegencia" />
+            <x-form.input x-model=formData.fundamentoVigencia name="fundamentoVigencia" label="Fundamento Jurídico Vigencia" placeholder="Ingrese fundamento" />
         </div>
     </div>
 
     <div x-show="tab === 'criterio'" x-cloak>
         <div>
-            <x-form.input x-model=formData.criterio name="criterio" label="Criterios de la resolucion del tramite o servicio, en su caso" placeholder="Ingrese criterio" />
+            <x-form.input x-model=formData.criterio name="criterio" label="Criterios de resolución del trámite o servicio, en su caso" placeholder="Ingrese criterio" />
             <x-form.input x-model=formData.fundamentoCriterio name="fundamentoCriterio" label="Fundamento Juridico del criterio" placeholder="Ingrese fundamento" />
         </div>
     </div>
@@ -167,7 +163,7 @@
     <div x-show="tab === 'informacion'" x-cloak>
         <div>
             <x-form.input x-model=formData.informacion name="informacion" label="Informacion que debera conservar para fines de acreditacion, inspeccion y verificacion con motivo del tramite o servicio" placeholder="Ingrese informacion" />
-            <x-form.input x-model=formData.fundamentoInformacion name="fundamentoInformacion" label="Fundamento Juridico del la informacion" placeholder="Ingrese fundamento" />
+            <x-form.input x-model=formData.fundamentoInformacion name="fundamentoInformacion" label="Fundamento Jurídico de la Información" placeholder="Ingrese fundamento" />
         </div>
     </div>
 
@@ -175,32 +171,61 @@
         <x-formulario.datos-estrategia />
 
         <div class="pt-4 flex flex-wrap gap-4">
-            @if ($fk_estatus == 1) 
-                
-        
+
+            @if ($fkestatus == 1)
+                <!-- Botón Enviar a Revisión -->
                 <button 
-                    type="button" 
-                    wire:click="enviarRevision"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded shadow"
+                type="button" 
+                wire:click="enviarRevision"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+                wire:loading.attr="disabled"
+                wire:target="enviarRevision"
                 >
+                <span wire:loading.remove wire:target="enviarRevision">
                     Enviar a Revisión
+                </span>
+                <span wire:loading wire:target="enviarRevision">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                </span>
                 </button>
+
+                <!-- Botón Guardar Cambios -->
+                <button 
+                type="submit" 
+                class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+                wire:loading.attr="disabled"
+                wire:target="submit"
+                >
+                <span wire:loading.remove wire:target="submit">
+                    Guardar Cambios
+                </span>
+                <span wire:loading wire:target="submit">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                </span>
+                </button>
+
             @endif
         
-            <button 
-                type="button" 
-                wire:click="vistaPrevia"
-                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded shadow"
+            <a 
+                href="{{ route('vista.consulta', ['id' => $tramiteServicioId]) }}" 
+                target="_blank"
+                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded shadow inline-block text-center"
+                wire:loading.attr="disabled"
+                wire:target="submit"
             >
-                Vista Previa
-            </button>
-            <button 
-                    type="submit" 
-                    class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded shadow"
-                >
-                    Guardar Cambios
-                </button>
+                <span wire:loading.remove wire:target="submit">Vista Previa</span>
+                <span wire:loading wire:target="submit">Espere...</span>
+            </a>
+        
+            
         </div>
+        
         
     </div>                
 </form>

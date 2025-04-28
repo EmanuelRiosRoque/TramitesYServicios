@@ -15,8 +15,11 @@
                 <!-- Sidebar Tabs -->
 
                 <x-form.formulario-tabs 
-                    :documentos-guardados="$documentosGuardados" :fk_estatus="$fk_estatus"
+                :documentos-guardados="$documentosGuardados" 
+                :fkestatus="$fk_estatus"
+                :tramite-servicio-id="$tramiteServicioId"
                 />
+            
 
 
             </div>

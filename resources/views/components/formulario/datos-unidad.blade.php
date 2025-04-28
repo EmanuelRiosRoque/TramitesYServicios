@@ -109,14 +109,14 @@ class="space-y-6"
             <!-- Piso -->
             <x-form.input 
                 x-model.live="horarioAtencion"
-                label="Horarios de atencion al publico" 
+                label="Horarios de atención al público" 
                 placeholder="Ingrese el piso"
             />
 
             <!-- Unidad Administrativa -->
             <x-form.input 
                 x-model.live="areaHorario"
-                label="Area"
+                label="Área"
                 placeholder="Ingrese la unidad administrativa"
             />
         </div>

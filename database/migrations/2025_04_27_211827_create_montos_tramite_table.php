@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('montos_tramite', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tramite_servicio_id'); // 🔥 FK al trámite
-            $table->string('monto')->nullable(); // 🔥 Monto (hasta 10 dígitos, 2 decimales)
+            $table->unsignedBigInteger('tramite_servicio_id'); //   FK al trámite
+            $table->string('monto')->nullable(); //   Monto (hasta 10 dígitos, 2 decimales)
             $table->timestamps();
 
             $table->foreign('tramite_servicio_id')

@@ -13,7 +13,7 @@ export default (wire = null) => ({
     errorMessage: '',
     camposInvalidos: [],
     tabsConError: [],
-    validacionActiva: false, // 🔥 Nueva bandera para habilitar/deshabilitar validación
+    validacionActiva: false, // Bandera para habilitar/deshabilitar validación
 
     init() {
         setTimeout(() => {
@@ -82,7 +82,7 @@ export default (wire = null) => ({
     validateTab(tabActual) {
         this.camposInvalidos = [];
 
-        // 🔥 Si la validación está desactivada, automáticamente pasa
+        //   Si la validación está desactivada, automáticamente pasa
         if (!this.validacionActiva) {
             return true;
         }
@@ -92,6 +92,8 @@ export default (wire = null) => ({
         switch (tabActual) {
             case 'datos':
                 if (!formData.modalidad) this.camposInvalidos.push('modalidad');
+                if (!formData.fundamentoExtension) this.camposInvalidos.push('fundamentoExtension');
+                if (!formData.areaObligada) this.camposInvalidos.push('areaObligada');
                 if (!formData.nombreTramite) this.camposInvalidos.push('nombreTramite');
                 if (!formData.descripcionTramite) this.camposInvalidos.push('descripcionTramite');
                 return this.camposInvalidos.length === 0;

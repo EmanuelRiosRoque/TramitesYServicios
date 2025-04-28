@@ -9,9 +9,9 @@ return new class extends Migration {
     {
         Schema::create('horarios_tramite', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tramite_servicio_id'); // 🔥 FK al trámite
-            $table->string('horario_atencion')->nullable(); // 🔥 Horario de atención (string)
-            $table->string('area')->nullable(); // 🔥 Área responsable
+            $table->unsignedBigInteger('tramite_servicio_id'); //   FK al trámite
+            $table->string('horario_atencion')->nullable(); //   Horario de atención (string)
+            $table->string('area')->nullable(); //   Área responsable
             $table->timestamps();
 
             $table->foreign('tramite_servicio_id')

@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('sitios_web_tramite', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tramite_servicio_id'); // 🔥 FK al trámite
-            $table->string('sitio')->nullable(); // 🔥 URL o sitio web
+            $table->unsignedBigInteger('tramite_servicio_id'); //   FK al trámite
+            $table->string('sitio')->nullable(); //   URL o sitio web
             $table->timestamps();
 
             $table->foreign('tramite_servicio_id')
