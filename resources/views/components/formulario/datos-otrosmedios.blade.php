@@ -4,6 +4,8 @@ x-init="
 $watch('telefonos', value => $wire.set('formData.telefonos', value));
 $watch('correos', value => $wire.set('formData.correos', value));
 "
+:class="(tieneError('telefonos') || tieneError('correos') || tieneError('sitiosWebs')) ? 'border border-red-500 p-4 rounded-md' : ''"
+
 >
 
     <div class="mb-7">

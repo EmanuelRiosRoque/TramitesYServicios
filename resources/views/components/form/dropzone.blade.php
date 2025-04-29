@@ -16,14 +16,20 @@
 
     <!-- Dropzone Área -->
     <div 
-        class="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50 text-center transition hover:border-teal-400 cursor-pointer"
-        @click.stop="$refs.input.click()"
-        @dragover.prevent
-        @drop.prevent="handleDrop($event)"
-        @dragenter="dragging = true"
-        @dragleave="dragging = false"
-        :class="dragging ? 'bg-teal-50 border-teal-400' : ''"
-    >
+    class="border-2 border-dashed rounded-lg p-6 bg-gray-50 text-center transition cursor-pointer"
+    :class="[
+        dragging ? 'bg-teal-50 border-teal-400' : '',
+        (files.length === 0 && tieneError('{{ $name }}')) ? 'border-red-500' : 'border-gray-300 hover:border-teal-400'
+    ]"
+    @click.stop="$refs.input.click()"
+    @dragover.prevent
+    @drop.prevent="handleDrop($event)"
+    @dragenter="dragging = true"
+    @dragleave="dragging = false"
+>
+
+
+
         <p class="text-sm text-gray-600">
             <span class="text-gray-800 font-medium">📁 Suelta aquí</span> o 
             <span class="underline text-teal-600">haz clic para buscar archivos</span>

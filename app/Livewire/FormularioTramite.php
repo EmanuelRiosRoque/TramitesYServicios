@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Paso;
+use GuzzleHttp\Client;
 use Livewire\Component;
 use App\Models\Requisito;
 use App\Models\MontoTramite;
@@ -348,50 +349,77 @@ class FormularioTramite extends Component
                 }
             }
 
+            
             // Insertar nuevos documentos/formatos
             if (!empty($this->formData['documentosRequeridos']) && is_array($this->formData['documentosRequeridos'])) {
                 foreach ($this->formData['documentosRequeridos'] as $documento) {
                     if (!empty($documento['base64'])) {
-                        $nombreArchivo = time() . '_' . $documento['name'];
-                        $ruta = 'documentos/' . $nombreArchivo; // Guardarlo en /storage/app/public/documentos
-
-                        //   Guardamos el archivo físico en el servidor
-                        Storage::disk('public')->put($ruta, base64_decode($documento['base64']));
-
-                        //   Creamos el registro en la base de datos
-                        DocumentoFormatoRequerido::create([
-                            'tramite_servicio_id' => $this->tramiteServicioId,
-                            'nombre_archivo' => $documento['name'],
-                            'tipo_archivo' => $documento['type'],
-                            'tamano_archivo' => $documento['size'],
-                            'tipo' => 'documento', // Importante: se marca como documento
-                            'ruta_archivo' => $ruta,
+                        // Prepara la información para la API
+                        $infoApi = [
+                            "metadata" => ["id_datoadicional" => 9, "area_tsjcdmx" => "DDMS"],
+                            "filename" => $documento['name'],
+                            "doc_base64" => $documento['base64'],
+                        ];
+            
+                        // Envía a la API
+                        $client = new Client();
+                        $response = $client->post('https://gestordocumental.poderjudicialcdmx.gob.mx/api/sintra', [
+                            'headers' => ['Content-Type' => 'application/json'],
+                            'body' => json_encode($infoApi),
                         ]);
+            
+                        $responseData = json_decode($response->getBody(), true);
+                        $apiLink = $responseData['url'] ?? null; // en caso de que la API no regrese bien
+            
+                        if ($apiLink) {
+                            DocumentoFormatoRequerido::create([
+                                'tramite_servicio_id' => $this->tramiteServicioId,
+                                'nombre_archivo' => $documento['name'],
+                                'tipo_archivo' => $documento['type'],
+                                'tamano_archivo' => $documento['size'],
+                                'tipo' => 'documento', // Aquí sigue siendo 'documento'
+                                'ruta_archivo' => $apiLink, // <- Aquí ahora guardas la URL pública
+                            ]);
+                        }
                     }
                 }
             }
+            
             if (!empty($this->formData['formatosRequeridos']) && is_array($this->formData['formatosRequeridos'])) {
                 foreach ($this->formData['formatosRequeridos'] as $formato) {
                     if (!empty($formato['base64'])) {
-                        $nombreArchivo = time() . '_' . preg_replace('/[^A-Za-z0-9.\-_]/', '_', $formato['name']);
-                        $ruta = 'documentos/' . $nombreArchivo; // Guardarlo en /storage/app/public/documentos (igual que documentos)
+                        $nombreArchivo = preg_replace('/[^A-Za-z0-9.\-_]/', '_', $formato['name']); // Limpias el nombre
             
-                        //   Guardamos el archivo físico en el servidor
-                        Storage::disk('public')->put($ruta, base64_decode($formato['base64']));
+                        // Prepara la información para la API
+                        $infoApi = [
+                            "metadata" => ["id_datoadicional" => 9, "area_tsjcdmx" => "DDMS"],
+                            "filename" => $nombreArchivo,
+                            "doc_base64" => $formato['base64'],
+                        ];
             
-                        //   Creamos el registro en la base de datos
-                        DocumentoFormatoRequerido::create([
-                            'tramite_servicio_id' => $this->tramiteServicioId,
-                            'nombre_archivo' => $formato['name'],
-                            'tipo_archivo' => $formato['type'],
-                            'tamano_archivo' => $formato['size'],
-                            'tipo' => 'formato', //   Aquí sí ponemos 'formato'
-                            'ruta_archivo' => $ruta,
+                        // Envía a la API
+                        $client = new Client();
+                        $response = $client->post('https://gestordocumental.poderjudicialcdmx.gob.mx/api/sintra', [
+                            'headers' => ['Content-Type' => 'application/json'],
+                            'body' => json_encode($infoApi),
                         ]);
+            
+                        $responseData = json_decode($response->getBody(), true);
+                        $apiLink = $responseData['url'] ?? null;
+            
+                        if ($apiLink) {
+                            DocumentoFormatoRequerido::create([
+                                'tramite_servicio_id' => $this->tramiteServicioId,
+                                'nombre_archivo' => $formato['name'],
+                                'tipo_archivo' => $formato['type'],
+                                'tamano_archivo' => $formato['size'],
+                                'tipo' => 'formato', // Aquí es 'formato'
+                                'ruta_archivo' => $apiLink, // <- Guardas la URL pública
+                            ]);
+                        }
                     }
                 }
             }
-            
 
             // Primero eliminamos los montos anteriores
             MontoTramite::where('tramite_servicio_id', $this->tramiteServicioId)->delete();

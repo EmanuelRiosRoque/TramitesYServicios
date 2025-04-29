@@ -1,4 +1,15 @@
-<div>
+<div
+    x-data
+    x-effect="
+        if (formData.formatoRequerido == '2') {
+            formData.tipoFormato = '';
+            formData.otroFormato = '';
+            formData.formatosRequeridos = [];
+            formData.ultimaFechaPublicacion = '';
+            formData.fundamentoFormato = '';
+        }
+    "
+>
     <!-- Radios -->
     <label class="block text-sm font-semibold mb-2">Formato Requerido</label>
     <div class="flex items-center space-x-6">
@@ -26,10 +37,8 @@
 
     <!-- Dropzone visible solo si se selecciona "Sí" -->
     <div x-show="formData.formatoRequerido == '1'" x-transition class="mt-5">
-        
-
         <x-form.radiogroup 
-            x-model=formData.tipoFormato
+            x-model="formData.tipoFormato"
             name="tipoFormato"
             :options="[
                 '1' => 'Formato',
@@ -59,7 +68,7 @@
             x-model="formData.ultimaFechaPublicacion" 
             type="date"
             name="ultimaFechaPublicacion" 
-            label="Ultima Fecha de publicación en el Medio de Difusión" 
+            label="Última Fecha de publicación en el Medio de Difusión" 
         />
     </div>
 
@@ -70,5 +79,4 @@
         label="Fundamento Jurídico Formato" 
         placeholder="Ingrese fundamento" 
     />
-
 </div>

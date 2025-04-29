@@ -73,7 +73,7 @@
                     @foreach ($tramite->documentosFormatos as $documento)
                         <li>
                             <a 
-                                href="{{ Storage::url($documento->ruta_archivo) }}" 
+                                href="{{ $documento->ruta_archivo }}" 
                                 target="_blank" 
                                 class="text-blue-600 hover:underline"
                             >

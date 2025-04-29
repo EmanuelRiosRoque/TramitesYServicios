@@ -1,6 +1,6 @@
 // resources/js/tu-archivo-de-tabs.js
 
-export default (wire = null) => ({
+export default (wire = null, validar = true, documentosGuardados) => ({ // ← NUEVO parámetro
 
     // Estado inicial
     tab: 'datos',
@@ -13,7 +13,7 @@ export default (wire = null) => ({
     errorMessage: '',
     camposInvalidos: [],
     tabsConError: [],
-    validacionActiva: false, // Bandera para habilitar/deshabilitar validación
+    validacionActiva: validar, // Bandera para habilitar/deshabilitar validación
 
     init() {
         setTimeout(() => {
@@ -110,16 +110,31 @@ export default (wire = null) => ({
             case 'documentos':
                 return true;
 
-            case 'formatos':
+                case 'formatos':
                 if (formData.formatoRequerido == 1) {
-                    if (!Array.isArray(formData.formatosRequeridos) || !formData.formatosRequeridos.length) this.camposInvalidos.push('formatosRequeridos');
+                    // Consultamos en vivo a wire
+                    const documentosActuales = wire?.documentosGuardados || [];
+                    const tieneFormatoGuardado = documentosActuales.some(doc => doc.tipo === 'formato');
+            
+                    if (!tieneFormatoGuardado) {
+                        if (!Array.isArray(formData.formatosRequeridos) || !formData.formatosRequeridos.length) {
+                            this.camposInvalidos.push('formatosRequeridos');
+                        }
+                    }
+            
                     if (!formData.tipoFormato) this.camposInvalidos.push('tipoFormato');
                     if (!formData.fundamentoFormato) this.camposInvalidos.push('fundamentoFormato');
+                    if (!formData.ultimaFechaPublicacion) this.camposInvalidos.push('ultimaFechaPublicacion');
                 }
+            
                 if (formData.tipoFormato == 4 && !formData.otroFormato) {
                     this.camposInvalidos.push('otroFormato');
                 }
+            
                 return this.camposInvalidos.length === 0;
+            
+            
+            
 
             case 'verificacion':
                 if (formData.requiereInspeccion == 1) {
@@ -208,5 +223,44 @@ export default (wire = null) => ({
                 }
             }
         }
-    }
+    },
+
+    validarTodoFormulario() {
+        this.camposInvalidos = [];
+        this.tabsConError = [];
+    
+        let todoValido = true;
+    
+        for (const tab of this.tabs) {
+            if (!this.validateTab(tab)) {
+                todoValido = false;
+                if (!this.tabsConError.includes(tab)) {
+                    this.tabsConError.push(tab);
+                }
+            }
+        }
+    
+        if (!todoValido) {
+            this.errorMessage = 'Faltan datos obligatorios en algunos apartados.';
+        }
+    
+        return todoValido;
+    },
+    
+    async enviarFormularioAccion(accion = 'submit') {
+        if (this.validarTodoFormulario()) {
+            this.errorMessage = '';
+    
+            // Hacemos la acción en Livewire: submit o enviarRevision
+            if (accion === 'submit') {
+                await wire.submit();
+            } else if (accion === 'enviarRevision') {
+                await wire.enviarRevision();
+            }
+        } else {
+            // Opcional: puedes hacer scroll automático hacia arriba
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    },
+    
 });
