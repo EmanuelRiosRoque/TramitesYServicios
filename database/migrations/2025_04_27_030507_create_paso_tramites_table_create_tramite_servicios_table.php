@@ -66,7 +66,7 @@ return new class extends Migration {
             $table->string('realizar_notificaciones')->nullable();
             $table->string('demas_informacion')->nullable();
 
-
+            $table->text('motivo_rechazo')->nullable();
             $table->timestamps();
         });
     }

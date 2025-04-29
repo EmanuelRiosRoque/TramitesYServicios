@@ -1,4 +1,4 @@
-<aside class="w-80 bg-white border-r border-gray-200 px-6 py-5 rounded-l-xl shadow-xl">
+<aside class="w-full sm:w-80 bg-white border-r border-gray-200 px-6 py-5 rounded-l-xl shadow-xl">
     <ul class="space-y-4 text-[15px] text-cyan-600 font-medium">
         @foreach([
             ['id' => 'datos', 'icon' => 'folder', 'label' => 'Datos del trámite o servicio'],

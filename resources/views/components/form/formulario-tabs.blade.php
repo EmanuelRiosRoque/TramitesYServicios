@@ -1,4 +1,4 @@
-<form wire:submit.prevent="submit" class="flex-1 p-8 pl-20 max-w-2xl" x-data="{ formData: $wire.formData }">
+<form wire:submit.prevent="submit" class="flex-1 sm:p-8 sm:pl-20 p-5 max-w-2xl" x-data="{ formData: $wire.formData }">
                 
     <div x-show="tab === 'datos'" x-cloak>
        <x-formulario.datos-tramite />
@@ -170,61 +170,117 @@
     <div x-show="tab === 'estrategia'" x-cloak>
         <x-formulario.datos-estrategia />
 
-        <div class="pt-4 flex flex-wrap gap-4">
+        @if ($mostrarMotivoRechazo)
+        <div class="items-center gap-4">
+            <x-form.input 
+                wire:model="descripcion_rechazo" 
+                name="descripcion_rechazo" 
+                label="Motivo del Rechazo" 
+                placeholder="Describa el motivo del rechazo" 
+            />
 
-            @if ($fkestatus == 1)
-                <!-- Botón Enviar a Revisión -->
-                <button 
-                type="button" 
-                wire:click="enviarRevision"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+            <button 
+                type="button"
+                wire:click="rechazar"
                 wire:loading.attr="disabled"
-                wire:target="enviarRevision"
-                >
-                <span wire:loading.remove wire:target="enviarRevision">
-                    Enviar a Revisión
-                </span>
-                <span wire:loading wire:target="enviarRevision">
-                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-                    </svg>
-                </span>
-                </button>
-
-                <!-- Botón Guardar Cambios -->
-                <button 
-                type="submit" 
-                class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
-                wire:loading.attr="disabled"
-                wire:target="submit"
-                >
-                <span wire:loading.remove wire:target="submit">
-                    Guardar Cambios
-                </span>
-                <span wire:loading wire:target="submit">
-                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-                    </svg>
-                </span>
-                </button>
-
-            @endif
-        
-            <a 
-                href="{{ route('vista.consulta', ['id' => $tramiteServicioId]) }}" 
-                target="_blank"
-                class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded shadow inline-block text-center"
-                wire:loading.attr="disabled"
-                wire:target="submit"
+                class="bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
             >
-                <span wire:loading.remove wire:target="submit">Vista Previa</span>
-                <span wire:loading wire:target="submit">Espere...</span>
-            </a>
-        
-            
+                <span wire:loading.remove wire:target="rechazar">
+                    Confirmar Rechazo
+                </span>
+                <span wire:loading wire:target="rechazar">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                    </svg>
+                </span>
+            </button>
         </div>
+    @endif
+
+        <div class="">
+
+            <div class="pt-4 flex flex-wrap items-center gap-4">
+        
+                <!-- Botón Enviar a Revisión -->
+                @if ($fkestatus == 1 || $fkestatus == 3)
+                    <button 
+                        type="button" 
+                        wire:click="enviarRevision"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+                        wire:loading.attr="disabled"
+                        wire:target="enviarRevision"
+                    >
+                        <span wire:loading.remove wire:target="enviarRevision">
+                            Enviar a Revisión
+                        </span>
+                        <span wire:loading wire:target="enviarRevision">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                            </svg>
+                        </span>
+                    </button>
+        
+                    <!-- Botón Guardar Cambios -->
+                    <button 
+                        type="submit" 
+                        class="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+                        wire:loading.attr="disabled"
+                        wire:target="submit"
+                    >
+                        <span wire:loading.remove wire:target="submit">
+                            Guardar Cambios
+                        </span>
+                        <span wire:loading wire:target="submit">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                            </svg>
+                        </span>
+                    </button>
+                @endif
+        
+                <!-- Botón Rechazar -->
+                @if (auth()->user()->hasRole('Revisor'))
+                    @if ($fkestatus == 2)
+                    <button 
+                        type="button"
+                        wire:click="$set('mostrarMotivoRechazo', true)"
+                        class="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+                    >
+                        Rechazar
+                    </button>
+
+                    <button 
+                        type="button"
+                        wire:click="publicar"
+                        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded shadow flex items-center justify-center gap-2"
+                    >
+                        Aceptar y Publicar
+                    </button>
+                    @endif
+                @endif
+        
+                <!-- Input Motivo Rechazo + Confirmar Rechazo -->
+                
+                <!-- Botón Vista Previa -->
+                <a 
+                    href="{{ route('vista.consulta', ['id' => $tramiteServicioId]) }}" 
+                    target="_blank"
+                    class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded shadow inline-block text-center"
+                    wire:loading.attr="disabled"
+                    wire:target="submit"
+                >
+                    <span wire:loading.remove wire:target="submit">Vista Previa</span>
+                    <span wire:loading wire:target="submit">Espere...</span>
+                </a>
+        
+            </div>
+        
+        </div>
+        
+        
         
         
     </div>                

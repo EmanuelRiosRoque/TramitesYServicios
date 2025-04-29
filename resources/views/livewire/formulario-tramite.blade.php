@@ -2,27 +2,28 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <h1 class="text-2xl font-bold px-6 py-4">Ingresa los datos solicitados</h1>
         <div class=" overflow-hidden  sm:rounded-lg">
-            @if ($errors->has('global'))
+            @if ($tramite->fk_estatus == 3 && $tramite->motivo_rechazo)
                 <p class="bg-red-100 text-red-700 p-3 rounded mb-4">
-                    {{ $errors->first('global') }}
+                    <strong>Motivo de rechazo:</strong> {{ $tramite->motivo_rechazo }}
                 </p>
             @endif
-            <div class="flex">
-
-                <!-- Sidebar Tabs -->
+        
+            <div class="flex flex-col sm:flex-row gap-6">
+    
+                <!-- Tabs (sidebar en desktop, arriba en mobile) -->
                 <x-sidebar-tabs/>
-                             
-                <!-- Sidebar Tabs -->
-
+            
+                <!-- Formulario -->
                 <x-form.formulario-tabs 
-                :documentos-guardados="$documentosGuardados" 
-                :fkestatus="$fk_estatus"
-                :tramite-servicio-id="$tramiteServicioId"
+                    :documentos-guardados="$documentosGuardados" 
+                    :fkestatus="$fk_estatus"
+                    :tramite-servicio-id="$tramiteServicioId"
+                    :mostrarMotivoRechazo="$mostrarMotivoRechazo"
+                    :descripcion_rechazo="$descripcion_rechazo"
                 />
             
-
-
             </div>
+            
             <!-- Botones de Navegación -->
            
             <div class="flex justify-end mt-6 px-6">

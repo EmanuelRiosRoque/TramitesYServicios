@@ -28,6 +28,8 @@ class FormularioTramite extends Component
     public $fk_estatus;
     public $formatosGuardados;
     public $tab;
+    public $mostrarMotivoRechazo = false;
+    public $descripcion_rechazo = '';
     public $formData = [
         // Datos generales del trámite
         'modalidad' => '',
@@ -103,7 +105,7 @@ class FormularioTramite extends Component
 
     ];
     public $tramiteServicioId;
-
+    public $tramite;
 
     public function mount($id)
     {
@@ -121,7 +123,8 @@ class FormularioTramite extends Component
                 'sitiosWeb',
                 'fundamentosPlazo'
             )->find($id);
-
+            $this->tramite = $tramite;
+            
             if ($tramite) {
                 $this->tramiteServicioId = $id;
                 $this->fk_estatus = $tramite->fk_estatus;
@@ -244,7 +247,6 @@ class FormularioTramite extends Component
         }
     }
     
-
     public function submit()
     {
         $tramite = TramiteServicio::find($this->tramiteServicioId);
@@ -547,21 +549,52 @@ class FormularioTramite extends Component
             })->toArray();
     }
 
-public function enviarRevision()
-{
-    $tramite = TramiteServicio::find($this->tramiteServicioId);
+    public function enviarRevision()
+    {
+        $this->submit();
 
-    if ($tramite) {
+
+        $tramite = TramiteServicio::find($this->tramiteServicioId);
+
+        if ($tramite) {
+            $tramite->update([
+                'fk_estatus' => 2, // Cambiar a "En Revisión"
+            ]);
+
+            //   Actualizar el valor local para que desaparezcan los botones
+            $this->fk_estatus = 2;
+
+            Toaster::success('Tramite o servicio se envio a revision !');
+        }
+    }
+
+    public function rechazar()
+    {
+        $this->validate([
+            'descripcion_rechazo' => 'required|string|min:5|max:500',
+        ]);
+        $tramite = TramiteServicio::find($this->tramiteServicioId);
+
+        // Lógica para actualizar el trámite como rechazado
         $tramite->update([
-            'fk_estatus' => 2, // Cambiar a "En Revisión"
+            'fk_estatus' => 3, // Estatus de rechazado
+            'motivo_rechazo' => $this->descripcion_rechazo,
         ]);
 
-        //   Actualizar el valor local para que desaparezcan los botones
-        $this->fk_estatus = 2;
-
-        Toaster::success('Tramite o servicio se envio a revision !');
+        ToastMagic::success('Trámite rechazado exitosamente.');
+        return redirect()->route('dashboard'); // o donde quieras
     }
-}
+
+    public function publicar()
+    {
+        // Lógica para actualizar el trámite como rechazado
+        $this->tramite->update([
+            'fk_estatus' => 4, // Estatus de rechazado
+        ]);
+
+        ToastMagic::success('Trámite publicado !.');
+        return redirect()->route('dashboard'); // o donde quieras
+    }
 
     public function render()
     {

@@ -62,6 +62,8 @@ class TramiteServicio extends Model
         'utiliza_firma',
         'realizar_notificaciones',
         'demas_informacion',
+
+        'motivo_rechazo'
     ];
 
     // 🚀 Aquí el cast
